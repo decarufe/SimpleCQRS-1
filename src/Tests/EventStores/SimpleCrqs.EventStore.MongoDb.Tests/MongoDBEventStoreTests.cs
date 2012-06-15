@@ -38,7 +38,6 @@ namespace SimpleCrqs.EventStore.MongoDb.Tests
     [Serializable]
     public class FooRootSnapshot : Snapshot
     {
-        public ObjectId Id { get; set; }
         public string Name { get; set; }
     }
 
@@ -112,6 +111,12 @@ namespace SimpleCrqs.EventStore.MongoDb.Tests
             var newRoot = repo.GetById<FooRoot>(id);
             Assert.AreEqual(root.Id, newRoot.Id);
             Assert.AreEqual("Andrea Balducci", newRoot.Name);
+
+            newRoot.ChangeName("no name");
+            repo.Save(newRoot);
+
+            var changed = repo.GetById<FooRoot>(id);
+            Assert.AreEqual("no name", changed.Name);
 
             runtime.Shutdown();
         }

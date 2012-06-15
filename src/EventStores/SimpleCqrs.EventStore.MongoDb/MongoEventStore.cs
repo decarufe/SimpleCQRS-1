@@ -18,15 +18,8 @@ namespace SimpleCqrs.EventStore.MongoDb
         private readonly MongoServer _server;
         private MongoDatabase _database;
 
-        public MongoEventStore(string connectionString)
+        static MongoEventStore()
         {
-            var connectionStringBuilder = new MongoConnectionStringBuilder(connectionString);
-            _databaseName = connectionStringBuilder.DatabaseName;
-
-            _server = MongoServer.Create(connectionString);
-            _server.Connect();
-            _database = _server.GetDatabase(_databaseName);
-            
             // ignore _id mapping
             BsonClassMap.RegisterClassMap<DomainEvent>(cm =>
             {
@@ -35,11 +28,27 @@ namespace SimpleCqrs.EventStore.MongoDb
                 cm.SetIgnoreExtraElementsIsInherited(true);
             });
 
-            _database.GetCollection<DomainEvent>("events").EnsureIndex(
+        }
+
+        public MongoEventStore(string connectionString)
+        {
+            var connectionStringBuilder = new MongoConnectionStringBuilder(connectionString);
+            _databaseName = connectionStringBuilder.DatabaseName;
+
+            _server = MongoServer.Create(connectionString);
+            _server.Connect();
+            _database = _server.GetDatabase(_databaseName);
+
+            Collection.EnsureIndex(
                 new IndexKeysBuilder()
                     .Ascending("AggregateRootId")
                     .Ascending("Sequence")
             );
+        }
+
+        private MongoCollection<DomainEvent> Collection
+        {
+            get { return _database.GetCollection<DomainEvent>("snapshots"); }
         }
 
         public IEnumerable<DomainEvent> GetEvents(Guid aggregateRootId, int startSequence)
@@ -66,7 +75,7 @@ namespace SimpleCqrs.EventStore.MongoDb
 
         public IEnumerable<DomainEvent> GetEventsByEventTypes(IEnumerable<Type> domainEventTypes, Guid aggregateRootId)
         {
-            IMongoQuery query =Query.And(
+            IMongoQuery query = Query.And(
                 Query.In("_t", new BsonArray(domainEventTypes.Select(t => t.Name))),
                 Query.In("AggregateRootId", aggregateRootId)
             );
