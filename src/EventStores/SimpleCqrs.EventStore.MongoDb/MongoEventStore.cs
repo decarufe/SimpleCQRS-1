@@ -34,6 +34,12 @@ namespace SimpleCqrs.EventStore.MongoDb
                 cm.SetIgnoreExtraElements(true);
                 cm.SetIgnoreExtraElementsIsInherited(true);
             });
+
+            _database.GetCollection<DomainEvent>("events").EnsureIndex(
+                new IndexKeysBuilder()
+                    .Ascending("AggregateRootId")
+                    .Ascending("Sequence")
+            );
         }
 
         public IEnumerable<DomainEvent> GetEvents(Guid aggregateRootId, int startSequence)
