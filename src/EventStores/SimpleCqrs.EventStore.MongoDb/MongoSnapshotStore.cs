@@ -44,10 +44,7 @@ namespace SimpleCqrs.EventStore.MongoDb
 
         public Snapshot GetSnapshot(Guid aggregateRootId)
         {
-            var snapshotsCollection = Collection.AsQueryable();
-            return (from snapshot in snapshotsCollection
-                    where snapshot.AggregateRootId == aggregateRootId
-                    select snapshot).SingleOrDefault();
+            return Collection.FindOneById(aggregateRootId);
         }
 
         public void SaveSnapshot<TSnapshot>(TSnapshot snapshot) where TSnapshot : Snapshot
