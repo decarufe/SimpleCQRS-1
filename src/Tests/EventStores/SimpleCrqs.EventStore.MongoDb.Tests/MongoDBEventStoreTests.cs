@@ -15,7 +15,6 @@ namespace SimpleCrqs.EventStore.MongoDb.Tests
         {
             return new MongoEventStore("server=localhost;database=testcqrs");
         }
-    
     }
 
     [Serializable]
@@ -24,16 +23,34 @@ namespace SimpleCrqs.EventStore.MongoDb.Tests
         public string Bar { get; set; }
     }
 
+    [Serializable]
+    public class FooNameChangedEvent : DomainEvent
+    {
+        public string Name { get; set; }
+    }
+    
     public class FooRoot : AggregateRoot
     {
+        public string Name { get; private set; }
+
         public void CreateMe(Guid id)
         {
             Apply(new FooCreatedEvent{AggregateRootId = id, Bar = "foobar"});
         }
 
+        public void ChangeName(string name)
+        {
+            Apply(new FooNameChangedEvent { AggregateRootId = this.Id, Name = name });
+        }
+        
         public void OnFooCreated(FooCreatedEvent domainEvent)
         {
             Id = domainEvent.AggregateRootId;
+        }
+
+        public void OnFooNameChanged(FooNameChangedEvent domainEvent)
+        {
+            this.Name = domainEvent.Name;
         }
     }
 
@@ -51,12 +68,14 @@ namespace SimpleCrqs.EventStore.MongoDb.Tests
 
             var root = new FooRoot();
             root.CreateMe(id);
+            root.ChangeName("Andrea Balducci");
 
             var repo = runtime.ServiceLocator.Resolve<IDomainRepository>();
             repo.Save(root);
 
             var newRoot = repo.GetById<FooRoot>(id);
-            Assert.AreEqual(newRoot.Id, root.Id);
+            Assert.AreEqual(root.Id, newRoot.Id);
+            Assert.AreEqual("Andrea Balducci", newRoot.Name);
 
             runtime.Shutdown();
         }
