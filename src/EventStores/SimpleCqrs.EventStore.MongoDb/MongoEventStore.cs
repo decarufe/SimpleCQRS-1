@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using MongoDB;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
@@ -25,8 +26,15 @@ namespace SimpleCqrs.EventStore.MongoDb
             _server = MongoServer.Create(connectionString);
             _server.Connect();
             _database = _server.GetDatabase(_databaseName);
+            
+            // ignore _id mapping
+            BsonClassMap.RegisterClassMap<DomainEvent>(cm =>
+            {
+                cm.AutoMap();
+                cm.SetIgnoreExtraElements(true);
+                cm.SetIgnoreExtraElementsIsInherited(true);
+            });
         }
-
 
         public IEnumerable<DomainEvent> GetEvents(Guid aggregateRootId, int startSequence)
         {
