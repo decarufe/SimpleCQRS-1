@@ -14,15 +14,21 @@ namespace SimpleCqrs.EventStore.MongoDb
 
         public MongoSnapshotStore(string connectionString)
         {
-            var mongo = MongoServer.Create(connectionString) ;
+            var connectionStringBuilder = new MongoConnectionStringBuilder(connectionString);
+            var mongo = MongoServer.Create(connectionString);
             mongo.Connect();
 
-            _database = mongo.GetDatabase("snapshotstore");
+            _database = mongo.GetDatabase(connectionStringBuilder.DatabaseName);
+        }
+
+        private MongoCollection<Snapshot> Collection
+        {
+            get { return _database.GetCollection<Snapshot>("snapshots"); }
         }
 
         public Snapshot GetSnapshot(Guid aggregateRootId)
         {
-            var snapshotsCollection = _database.GetCollection<Snapshot>("snapshots").AsQueryable();
+            var snapshotsCollection = Collection.AsQueryable();
             return (from snapshot in snapshotsCollection
                     where snapshot.AggregateRootId == aggregateRootId
                     select snapshot).SingleOrDefault();
