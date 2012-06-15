@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MongoDB.Bson;
 using SimpleCqrs;
 using SimpleCqrs.Domain;
 using SimpleCqrs.EventStore.MongoDb;
@@ -13,7 +14,12 @@ namespace SimpleCrqs.EventStore.MongoDb.Tests
     {
         protected override IEventStore  GetEventStore(IServiceLocator serviceLocator)
         {
-            return new MongoEventStore("server=localhost;database=testcqrs");
+            return new MongoEventStore("server=localhost;database=cqrs-events");
+        }
+
+        protected override ISnapshotStore GetSnapshotStore(IServiceLocator serviceLocator)
+        {
+            return new MongoSnapshotStore("server=localhost;database=cqrs-snapshot");
         }
     }
 
@@ -28,8 +34,15 @@ namespace SimpleCrqs.EventStore.MongoDb.Tests
     {
         public string Name { get; set; }
     }
-    
-    public class FooRoot : AggregateRoot
+
+    [Serializable]
+    public class FooRootSnapshot : Snapshot
+    {
+        public ObjectId Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    public class FooRoot : AggregateRoot, ISnapshotOriginator
     {
         public string Name { get; private set; }
 
@@ -51,6 +64,29 @@ namespace SimpleCrqs.EventStore.MongoDb.Tests
         public void OnFooNameChanged(FooNameChangedEvent domainEvent)
         {
             this.Name = domainEvent.Name;
+        }
+
+        public Snapshot GetSnapshot()
+        {
+            return new FooRootSnapshot()
+                       {
+                           AggregateRootId = this.Id,
+                           LastEventSequence = this.LastEventSequence,
+                           Name = this.Name
+                       };
+        }
+
+        public void LoadSnapshot(Snapshot snapshot)
+        {
+            var s = (FooRootSnapshot) snapshot;
+            this.Name = s.Name;
+        }
+
+        public bool ShouldTakeSnapshot(Snapshot previousSnapshot)
+        {
+            if (previousSnapshot == null)
+                return true;
+            return this.LastEventSequence > previousSnapshot.LastEventSequence;
         }
     }
 
