@@ -3,150 +3,70 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using MongoDB;
-using MongoDB.Configuration;
-using MongoDB.Configuration.Builders;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoDB.Driver.Builders;
+using MongoDB.Driver.Linq;
 using SimpleCqrs.Eventing;
 
 namespace SimpleCqrs.EventStore.MongoDb
 {
     public class MongoEventStore : IEventStore
     {
-        private static readonly MethodInfo MapMethod = typeof(MappingStoreBuilder).GetMethod("Map", Type.EmptyTypes);
-        private readonly MongoConfiguration configuration;
-        private readonly string databaseName;
+        private readonly string _databaseName;
+        private readonly MongoServer _server;
+        private MongoDatabase _database;
 
-        public MongoEventStore(string connectionString, ITypeCatalog typeCatalog)
+        public MongoEventStore(string connectionString)
         {
             var connectionStringBuilder = new MongoConnectionStringBuilder(connectionString);
-            databaseName = connectionStringBuilder.Database;
-            configuration = BuildMongoConfiguration(typeCatalog, connectionString);
+            _databaseName = connectionStringBuilder.DatabaseName;
+
+            _server = MongoServer.Create(connectionString);
+            _server.Connect();
+            _database = _server.GetDatabase(_databaseName);
         }
 
-        private static MongoConfiguration BuildMongoConfiguration(ITypeCatalog domainEventTypeCatalog, string connectionString)
-        {
-            var configurationBuilder = new MongoConfigurationBuilder();
-            configurationBuilder.ConnectionString(connectionString);
-            configurationBuilder.Mapping(mapping =>
-                                             {
-                                                 mapping.DefaultProfile(profile => profile.SubClassesAre(t => t.IsSubclassOf(typeof(DomainEvent))));
-                                                 domainEventTypeCatalog
-                                                     .GetDerivedTypes(typeof(DomainEvent))
-                                                     .ToList()
-                                                     .ForEach(type => MapEventType(type, mapping));
-                                             });
-
-            return configurationBuilder.BuildConfiguration();
-        }
 
         public IEnumerable<DomainEvent> GetEvents(Guid aggregateRootId, int startSequence)
         {
-            using(var mongo = new Mongo(configuration))
-            {
-                mongo.Connect();
+            var eventsCollection = _database.GetCollection<DomainEvent>("events").AsQueryable();
 
-                var database = mongo.GetDatabase(databaseName);
-                var eventsCollection = database.GetCollection<DomainEvent>("events").Linq();
-
-                return (from domainEvent in eventsCollection
-                        where domainEvent.AggregateRootId == aggregateRootId
-                        where domainEvent.Sequence > startSequence
-                        select domainEvent).ToList();
-            }
+            return (from domainEvent in eventsCollection
+                    where domainEvent.AggregateRootId == aggregateRootId
+                    where domainEvent.Sequence > startSequence
+                    select domainEvent).ToList();
         }
 
         public void Insert(IEnumerable<DomainEvent> domainEvents)
         {
-            using(var mongo = new Mongo(configuration))
-            {
-                mongo.Connect();
-
-                var database = mongo.GetDatabase(databaseName);
-                var eventsCollection = database.GetCollection<DomainEvent>("events");
-                eventsCollection.Insert(domainEvents);
-            }
+            var eventsCollection = _database.GetCollection<DomainEvent>("events");
+            eventsCollection.InsertBatch(domainEvents);
         }
 
         public IEnumerable<DomainEvent> GetEventsByEventTypes(IEnumerable<Type> domainEventTypes)
         {
-            using(var mongo = new Mongo(configuration))
-            {
-                mongo.Connect();
-
-                var database = mongo.GetDatabase(databaseName);
-                var selector = new Document {{"_t", new Document {{"$in", domainEventTypes.Select(t => t.Name).ToArray()}}}};
-
-                var cursor = database.GetCollection<DomainEvent>("events").Find(selector);
-
-                return cursor.Documents.ToList();
-            }
+            IMongoQuery query = Query.In("_t", new BsonArray(domainEventTypes.Select(t => t.Name)));
+            return _database.GetCollection<DomainEvent>("events").Find(query).ToList();
         }
 
         public IEnumerable<DomainEvent> GetEventsByEventTypes(IEnumerable<Type> domainEventTypes, Guid aggregateRootId)
         {
-            using (var mongo = new Mongo(configuration))
-            {
-                mongo.Connect();
+            IMongoQuery query =Query.And(
+                Query.In("_t", new BsonArray(domainEventTypes.Select(t => t.Name))),
+                Query.In("AggregateRootId", aggregateRootId)
+            );
 
-                var database = mongo.GetDatabase(databaseName);
-                var selector = new Document
-                                   {
-                                       {"_t", new Document {{"$in", domainEventTypes.Select(t => t.Name).ToArray()}}},
-                                       {"AggregateRootId", aggregateRootId}
-                                   };
-
-                var cursor = database.GetCollection<DomainEvent>("events").Find(selector);
-
-                return cursor.Documents.ToList();
-            }
+            return _database.GetCollection<DomainEvent>("events").Find(query).ToList();
         }
 
         public IEnumerable<DomainEvent> GetEventsByEventTypes(IEnumerable<Type> domainEventTypes, DateTime startDate, DateTime endDate)
         {
-            using(var mongo = new Mongo(configuration))
-            {
-                mongo.Connect();
-
-                var database = mongo.GetDatabase(databaseName);
-                var selector = new Document
-                                   {
-                                       {"_t", new Document {{"$in", domainEventTypes.Select(t => t.Name).ToArray()}}},
-                                       {"EventDate", new Document {{"$gte", startDate}, {"$lte", endDate}}}
-                                   };
-
-                var cursor = database.GetCollection<DomainEvent>("events").Find(selector);
-
-                return cursor.Documents.ToList();
-            }
-        }
-
-        public IEnumerable<DomainEvent> GetEventsBySelector(Document selector)
-        {
-            using(var mongo = new Mongo(configuration))
-            {
-                mongo.Connect();
-
-                var database = mongo.GetDatabase(databaseName);
-                var cursor = database.GetCollection<DomainEvent>("events").Find(selector);
-                return cursor.Documents.ToList();
-            }
-        }
-
-        public IEnumerable<DomainEvent> GetEventsBySelector(Document selector, int skip, int limit)
-        {
-            using(var mongo = new Mongo(configuration))
-            {
-                mongo.Connect();
-
-                var database = mongo.GetDatabase(databaseName);
-                var cursor = database.GetCollection<DomainEvent>("events").Find(selector);
-                return cursor.Skip(skip).Limit(limit).Documents.ToList();
-            }
-        }
-
-        private static void MapEventType(Type type, MappingStoreBuilder mapping)
-        {
-            MapMethod.MakeGenericMethod(type)
-                .Invoke(mapping, new object[] {});
+            IMongoQuery query = Query.And(
+                Query.In("_t", new BsonArray(domainEventTypes.Select(t => t.Name))),
+                Query.GTE("EventDate", startDate).LTE(endDate)
+            );
+            return _database.GetCollection<DomainEvent>("events").Find(query).ToList();
         }
     }
 }

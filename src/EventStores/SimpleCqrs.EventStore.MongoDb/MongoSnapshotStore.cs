@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using MongoDB;
-using MongoDB.Configuration;
-using MongoDB.Configuration.Builders;
+using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using SimpleCqrs.Domain;
 using SimpleCqrs.Eventing;
 
@@ -11,21 +10,19 @@ namespace SimpleCqrs.EventStore.MongoDb
 {
     public class MongoSnapshotStore : ISnapshotStore
     {
-        private static readonly MethodInfo MapMethod = typeof(MappingStoreBuilder).GetMethod("Map", Type.EmptyTypes);
-        private readonly IMongoDatabase database;
+        private readonly MongoDatabase _database;
 
-        public MongoSnapshotStore(string connectionString, ITypeCatalog snapshotTypeCatalog)
+        public MongoSnapshotStore(string connectionString)
         {
-            var configuration = BuildMongoConfiguration(snapshotTypeCatalog, connectionString);
-            var mongo = new Mongo(configuration);
+            var mongo = MongoServer.Create(connectionString) ;
             mongo.Connect();
 
-            database = mongo.GetDatabase("snapshotstore");
+            _database = mongo.GetDatabase("snapshotstore");
         }
 
         public Snapshot GetSnapshot(Guid aggregateRootId)
         {
-            var snapshotsCollection = database.GetCollection<Snapshot>("snapshots").Linq();
+            var snapshotsCollection = _database.GetCollection<Snapshot>("snapshots").AsQueryable();
             return (from snapshot in snapshotsCollection
                     where snapshot.AggregateRootId == aggregateRootId
                     select snapshot).SingleOrDefault();
@@ -33,30 +30,10 @@ namespace SimpleCqrs.EventStore.MongoDb
 
         public void SaveSnapshot<TSnapshot>(TSnapshot snapshot) where TSnapshot : Snapshot
         {
-            var snapshotsCollection = database.GetCollection<TSnapshot>("snapshots");
-            snapshotsCollection.Update(snapshot, new { snapshot.AggregateRootId }, UpdateFlags.Upsert);
-        }
-
-        private static MongoConfiguration BuildMongoConfiguration(ITypeCatalog snapshotTypeCatalog, string connectionString)
-        {
-            var configurationBuilder = new MongoConfigurationBuilder();
-            configurationBuilder.ConnectionString(connectionString);
-            configurationBuilder.Mapping(mapping =>
-                                             {
-                                                 mapping.DefaultProfile(profile => profile.SubClassesAre(type => type.IsSubclassOf(typeof(Snapshot))));
-                                                 snapshotTypeCatalog
-                                                     .GetDerivedTypes(typeof(Snapshot))
-                                                     .ToList()
-                                                     .ForEach(type => MapEventType(type, mapping));
-                                             });
-
-            return configurationBuilder.BuildConfiguration();
-        }
-
-        private static void MapEventType(Type type, MappingStoreBuilder mapping)
-        {
-            MapMethod.MakeGenericMethod(type)
-                .Invoke(mapping, new object[] {});
+            var io = new MongoInsertOptions();
+            io.SafeMode = SafeMode.True;
+            var snapshotsCollection = _database.GetCollection<TSnapshot>("snapshots");
+            snapshotsCollection.Save(snapshot, io);
         }
     }
 }

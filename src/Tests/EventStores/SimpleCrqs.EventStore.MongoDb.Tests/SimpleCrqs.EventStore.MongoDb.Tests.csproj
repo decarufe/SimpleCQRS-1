@@ -48,6 +48,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MongoDBEventStoreTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +59,10 @@
     <ProjectReference Include="..\..\..\ServiceLocators\SimpleCqrs.Unity\SimpleCqrs.Unity.csproj">
       <Project>{00634E6C-A282-404A-B08B-338FD4CA41A9}</Project>
       <Name>SimpleCqrs.Unity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SimpleCqrs\SimpleCqrs.csproj">
+      <Project>{E04C12B5-A6D3-4D64-9F38-896BEE68162E}</Project>
+      <Name>SimpleCqrs</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
