@@ -57,10 +57,6 @@
       <Project>{201A4DF5-2217-4202-80E8-E784737366BC}</Project>
       <Name>SimpleCqrs.EventStore.MongoDb</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\ServiceLocators\SimpleCqrs.Unity\SimpleCqrs.Unity.csproj">
-      <Project>{00634E6C-A282-404A-B08B-338FD4CA41A9}</Project>
-      <Name>SimpleCqrs.Unity</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\ServiceLocators\SimpleCqrs.Windsor\SimpleCqrs.Windsor.csproj">
       <Project>{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}</Project>
       <Name>SimpleCqrs.Windsor</Name>
