@@ -61,6 +61,10 @@
       <Project>{00634E6C-A282-404A-B08B-338FD4CA41A9}</Project>
       <Name>SimpleCqrs.Unity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\ServiceLocators\SimpleCqrs.Windsor\SimpleCqrs.Windsor.csproj">
+      <Project>{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}</Project>
+      <Name>SimpleCqrs.Windsor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\SimpleCqrs\SimpleCqrs.csproj">
       <Project>{E04C12B5-A6D3-4D64-9F38-896BEE68162E}</Project>
       <Name>SimpleCqrs</Name>

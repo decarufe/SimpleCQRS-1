@@ -39,6 +39,7 @@ namespace SimpleCqrs
             var serviceLocator = GetServiceLocator();
 
             serviceLocator.Register<IServiceLocator>(() => serviceLocator);
+            serviceLocator.Register<IDomainEventHandlerFactory, DomainEventHandlerFactory>();
             serviceLocator.Register(GetTypeCatalog(serviceLocator));
             serviceLocator.Register(GetCommandBus(serviceLocator));
             serviceLocator.Register(GetEventBus(serviceLocator));
@@ -97,7 +98,7 @@ namespace SimpleCqrs
         protected virtual IEventBus GetEventBus(IServiceLocator serviceLocator)
         {
             var typeCatalog = serviceLocator.Resolve<ITypeCatalog>();
-            var domainEventHandlerFactory = serviceLocator.Resolve<DomainEventHandlerFactory>();
+            var domainEventHandlerFactory = serviceLocator.Resolve<IDomainEventHandlerFactory>();
             var domainEventTypes = typeCatalog.GetGenericInterfaceImplementations(typeof(IHandleDomainEvents<>));
 
             return new LocalEventBus(domainEventTypes, domainEventHandlerFactory);

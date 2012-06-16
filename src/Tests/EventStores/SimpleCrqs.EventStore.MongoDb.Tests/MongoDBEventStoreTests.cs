@@ -7,10 +7,11 @@ using SimpleCqrs;
 using SimpleCqrs.Domain;
 using SimpleCqrs.EventStore.MongoDb;
 using SimpleCqrs.Eventing;
+using SimpleCqrs.Windsor;
 
 namespace SimpleCrqs.EventStore.MongoDb.Tests
 {
-    public class MongoDBRuntime : SimpleCqrs.SimpleCqrsRuntime<SimpleCqrs.Unity.UnityServiceLocator>
+    public class MongoDBRuntime : SimpleCqrs.SimpleCqrsRuntime<WindsorServiceLocator>
     {
         protected override IEventStore  GetEventStore(IServiceLocator serviceLocator)
         {

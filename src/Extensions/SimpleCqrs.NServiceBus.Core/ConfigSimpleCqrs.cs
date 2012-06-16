@@ -41,7 +41,7 @@ namespace SimpleCqrs.NServiceBus
         public ConfigSimpleCqrs SubscribeForDomainEvents()
         {
             var typeCatalog = ServiceLocator.Resolve<ITypeCatalog>();
-            var domainEventHandlerFactory = ServiceLocator.Resolve<DomainEventHandlerFactory>();
+            var domainEventHandlerFactory = ServiceLocator.Resolve<IDomainEventHandlerFactory>();
             var domainEventTypes = typeCatalog.GetGenericInterfaceImplementations(typeof(IHandleDomainEvents<>));
 
             var eventBus = new NsbLocalEventBus(domainEventTypes, domainEventHandlerFactory);
