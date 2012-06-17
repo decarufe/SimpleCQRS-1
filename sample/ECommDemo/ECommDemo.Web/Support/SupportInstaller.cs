@@ -29,8 +29,8 @@ namespace ECommDemo.Web.Support
                     .For<ITypeCatalog>()
                     .UsingFactoryMethod(() => new AssemblyTypeCatalog(new Assembly[]
                                                                           {
-                                                                             typeof(NewItemCommand).Assembly,
-                                                                             typeof(NewItemCommandHandler).Assembly 
+                                                                             typeof(NewInventoryItemCommand).Assembly,
+                                                                             typeof(NewInventoryItemCommandHandler).Assembly 
                                                                     })),
                 Component
                     .For<IEventStore>()

@@ -5,46 +5,44 @@ using System.Text;
 using SimpleCqrs.Domain;
 using SimpleCqrs.Eventing;
 
-namespace ECommDemo.Domain.InventoryContext
+namespace ECommDemo.Domain.ShopContext
 {
-    public class InventoryItemCreatedEvent : DomainEvent
+    public class ShopItemCreatedEvent : DomainEvent
     {
         public string ItemId { get; protected set; }
         public string Description { get; protected set; }
 
-        public InventoryItemCreatedEvent(string itemId, string description)
+        public ShopItemCreatedEvent(string itemId, string description)
         {
             ItemId = itemId;
             Description = description;
         }
     }
 
-    public class InventoryItem : AggregateRoot
+    public class ShopItem : AggregateRoot
     {
         public string ItemId { get; protected set; }
         public string Description { get; protected set; }
-        public decimal Availability { get; protected set; }
-        public string UnitOfMeasure { get; protected set; }
+        public decimal BasePrice { get; protected set; }
 
-        public InventoryItem()
+        public ShopItem()
         {
         }
 
-        public InventoryItem(string id, string description)
+        public ShopItem(string id, string description)
         {
-            Apply(new InventoryItemCreatedEvent(id, description)
+            Apply(new ShopItemCreatedEvent(id, description)
                       {
                           AggregateRootId = Guid.NewGuid()
                       });
         }
 
 
-        protected void OnItemCreated(InventoryItemCreatedEvent e)
+        protected void OnItemCreated(ShopItemCreatedEvent e)
         {
             this.Id = e.AggregateRootId;
             this.ItemId = e.ItemId;
             this.Description = e.Description;
         }
-
     }
 }

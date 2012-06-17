@@ -40,8 +40,8 @@ namespace ECommDemo.Domain
         {
             return new[]
                        {
-                             typeof(NewItemCommand).Assembly,
-                             typeof(NewItemCommandHandler).Assembly 
+                             typeof(NewInventoryItemCommand).Assembly,
+                             typeof(NewInventoryItemCommandHandler).Assembly 
                        };
         }
     }

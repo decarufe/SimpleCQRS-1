@@ -6,6 +6,7 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using SimpleCqrs.Commanding;
+using SimpleCqrs.Eventing;
 
 namespace ECommDemo.Domain.Support
 {
@@ -15,8 +16,11 @@ namespace ECommDemo.Domain.Support
         {
             container.Register(
                 AllTypes.FromThisAssembly()
-                    .BasedOn(typeof(IHandleCommands<>))
-            );
+                    .BasedOn(typeof (IHandleCommands<>)),
+                AllTypes.FromThisAssembly()
+                    .BasedOn(typeof (IHandleDomainEvents<>))
+                    .WithServiceSelf()
+                );
         }
     }
 }
