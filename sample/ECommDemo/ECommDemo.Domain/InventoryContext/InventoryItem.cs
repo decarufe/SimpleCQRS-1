@@ -3,23 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SimpleCqrs.Domain;
-using SimpleCqrs.Eventing;
 
 namespace ECommDemo.Domain.InventoryContext
 {
-    public class InventoryItemCreatedEvent : DomainEvent
+    public class InventoryItemSnapshot : Snapshot
     {
-        public string ItemId { get; protected set; }
-        public string Description { get; protected set; }
-
-        public InventoryItemCreatedEvent(string itemId, string description)
-        {
-            ItemId = itemId;
-            Description = description;
-        }
+        public string ItemId { get; set; }
+        public string Description { get; set; }
     }
 
-    public class InventoryItem : AggregateRoot
+    public class InventoryItem : AggregateRoot, ISnapshotOriginator
     {
         public string ItemId { get; protected set; }
         public string Description { get; protected set; }
@@ -46,5 +39,27 @@ namespace ECommDemo.Domain.InventoryContext
             this.Description = e.Description;
         }
 
+        public Snapshot GetSnapshot()
+        {
+            return new InventoryItemSnapshot()
+                       {
+                           ItemId = this.ItemId,
+                           Description = this.Description
+                       };
+
+        }
+
+        public void LoadSnapshot(Snapshot snapshot)
+        {
+            var s = (InventoryItemSnapshot) snapshot;
+            this.ItemId = s.ItemId;
+            this.Description = s.Description;
+        }
+
+        public bool ShouldTakeSnapshot(Snapshot previousSnapshot)
+        {
+            return  previousSnapshot == null || 
+                    previousSnapshot.LastEventSequence < this.LastEventSequence;
+        }
     }
 }
