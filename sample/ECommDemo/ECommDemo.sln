@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommDemo.Web", "ECommDemo.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SimpleCQRS", "SimpleCQRS", "{63DFC422-5609-49E2-871F-847DA3E44F7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCqrs", "..\..\..\src\SimpleCqrs\SimpleCqrs.csproj", "{E04C12B5-A6D3-4D64-9F38-896BEE68162E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCqrs", "..\..\src\SimpleCqrs\SimpleCqrs.csproj", "{E04C12B5-A6D3-4D64-9F38-896BEE68162E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{203DC9DC-70AE-4E24-928A-272E46F648B3}"
 	ProjectSection(SolutionItems) = preProject
@@ -13,7 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{203DC9
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCqrs.EventStore.MongoDb", "..\..\..\src\EventStores\SimpleCqrs.EventStore.MongoDb\SimpleCqrs.EventStore.MongoDb.csproj", "{201A4DF5-2217-4202-80E8-E784737366BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCqrs.EventStore.MongoDb", "..\..\src\EventStores\SimpleCqrs.EventStore.MongoDb\SimpleCqrs.EventStore.MongoDb.csproj", "{201A4DF5-2217-4202-80E8-E784737366BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCqrs.Windsor", "..\..\src\ServiceLocators\SimpleCqrs.Windsor\SimpleCqrs.Windsor.csproj", "{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{201A4DF5-2217-4202-80E8-E784737366BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{201A4DF5-2217-4202-80E8-E784737366BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{201A4DF5-2217-4202-80E8-E784737366BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -40,5 +46,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E04C12B5-A6D3-4D64-9F38-896BEE68162E} = {63DFC422-5609-49E2-871F-847DA3E44F7F}
 		{201A4DF5-2217-4202-80E8-E784737366BC} = {63DFC422-5609-49E2-871F-847DA3E44F7F}
+		{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B} = {63DFC422-5609-49E2-871F-847DA3E44F7F}
 	EndGlobalSection
 EndGlobal
