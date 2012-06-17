@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCqrs.EventStore.Mongo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCqrs.Windsor", "..\..\src\ServiceLocators\SimpleCqrs.Windsor\SimpleCqrs.Windsor.csproj", "{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommDemo.Commanding", "ECommDemo.Commanding\ECommDemo.Commanding.csproj", "{9EAD889F-AC1D-4FB7-AAD9-5FC3F5E6CE0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommDemo.Domain", "ECommDemo.Domain\ECommDemo.Domain.csproj", "{7A0D79F7-444B-48B1-993F-5818E60C5FCE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EAD889F-AC1D-4FB7-AAD9-5FC3F5E6CE0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EAD889F-AC1D-4FB7-AAD9-5FC3F5E6CE0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EAD889F-AC1D-4FB7-AAD9-5FC3F5E6CE0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EAD889F-AC1D-4FB7-AAD9-5FC3F5E6CE0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A0D79F7-444B-48B1-993F-5818E60C5FCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A0D79F7-444B-48B1-993F-5818E60C5FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A0D79F7-444B-48B1-993F-5818E60C5FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A0D79F7-444B-48B1-993F-5818E60C5FCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

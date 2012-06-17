@@ -6,6 +6,9 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Castle.Windsor;
+using ECommDemo.Domain.Support;
+using ECommDemo.Web.Support;
 
 namespace ECommDemo.Web
 {
@@ -14,6 +17,9 @@ namespace ECommDemo.Web
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        private RuntimeBootstrapper _bootstrapper;
+        private IWindsorContainer Container { get; set; }
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -21,6 +27,30 @@ namespace ECommDemo.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            SetupContainer();
+            _bootstrapper = new RuntimeBootstrapper(Container);
+            _bootstrapper.Start();
+        }
+
+        protected void SetupContainer()
+        {
+            Container = new WindsorContainer();
+            Container.Install(
+                    new SupportInstaller(),
+                    new HandlersInstaller()
+                );
+        
+            ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(Container));
+        }
+
+        protected void Application_End()
+        {
+            if (_bootstrapper != null)
+                _bootstrapper.Stop();
+
+            if(Container != null)
+                Container.Dispose();
         }
     }
 }
