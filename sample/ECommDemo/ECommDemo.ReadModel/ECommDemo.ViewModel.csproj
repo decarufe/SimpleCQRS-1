@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7A0D79F7-444B-48B1-993F-5818E60C5FCE}</ProjectGuid>
+    <ProjectGuid>{E1E395CE-A421-493A-9541-A860EAEA1611}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ECommDemo.Domain</RootNamespace>
-    <AssemblyName>ECommDemo.Domain</AssemblyName>
+    <RootNamespace>ECommDemo.ViewModel</RootNamespace>
+    <AssemblyName>ECommDemo.ViewModel</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -36,18 +36,8 @@
     <Reference Include="Castle.Core">
       <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Facilities.Logging">
-      <HintPath>..\packages\Castle.LoggingFacility.3.0.0.4001\lib\net40\Castle.Facilities.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Services.Logging.Log4netIntegration">
-      <HintPath>..\packages\Castle.Core-log4net.3.0.0.4003\lib\net40\Castle.Services.Logging.Log4netIntegration.dll</HintPath>
-    </Reference>
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.0.0.4001\lib\net40\Castle.Windsor.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
     </Reference>
     <Reference Include="MongoDB.Bson">
       <HintPath>..\packages\mongocsharpdriver.1.4.2\lib\net35\MongoDB.Bson.dll</HintPath>
@@ -64,32 +54,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandHandlers\NewInventoryItemCommandHandler.cs" />
-    <Compile Include="CommandHandlers\NewShopItemCommandHandler.cs" />
-    <Compile Include="ECommDemoRuntime.cs" />
-    <Compile Include="EventHandlers\InventoryItemCreatedEventHanlder.cs" />
-    <Compile Include="InventoryContext\InventoryItem.cs" />
-    <Compile Include="InventoryContext\InventoryItemCreatedEvent.cs" />
+    <Compile Include="Inventory\InventoryService.cs" />
+    <Compile Include="IReader.cs" />
+    <Compile Include="IWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShopContext\ShopItem.cs" />
-    <Compile Include="Support\HandlersInstaller.cs" />
+    <Compile Include="Shop\CatalogService.cs" />
+    <Compile Include="Inventory\InventoryItemDenormalizer.cs" />
+    <Compile Include="Support\DomainEventHandlersInstaller.cs" />
+    <Compile Include="Support\ViewModelInstaller.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\EventStores\SimpleCqrs.EventStore.MongoDb\SimpleCqrs.EventStore.MongoDb.csproj">
-      <Project>{201A4DF5-2217-4202-80E8-E784737366BC}</Project>
-      <Name>SimpleCqrs.EventStore.MongoDb</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\src\ServiceLocators\SimpleCqrs.Windsor\SimpleCqrs.Windsor.csproj">
-      <Project>{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}</Project>
-      <Name>SimpleCqrs.Windsor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\src\SimpleCqrs\SimpleCqrs.csproj">
       <Project>{E04C12B5-A6D3-4D64-9F38-896BEE68162E}</Project>
       <Name>SimpleCqrs %28SimpleCQRS\SimpleCqrs%29</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ECommDemo.Commanding\ECommDemo.Commanding.csproj">
-      <Project>{9EAD889F-AC1D-4FB7-AAD9-5FC3F5E6CE0B}</Project>
-      <Name>ECommDemo.Commanding</Name>
+    <ProjectReference Include="..\ECommDemo.Domain\ECommDemo.Domain.csproj">
+      <Project>{7A0D79F7-444B-48B1-993F-5818E60C5FCE}</Project>
+      <Name>ECommDemo.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

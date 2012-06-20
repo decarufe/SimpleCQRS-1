@@ -53,6 +53,7 @@
       <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MongoDB.Driver, Version=1.4.2.4500, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -139,6 +140,10 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\logistics\Controllers\InventoryController.cs" />
+    <Compile Include="Areas\logistics\logisticsAreaRegistration.cs" />
+    <Compile Include="Areas\shop\Controllers\CatalogController.cs" />
+    <Compile Include="Areas\shop\shopAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
@@ -239,6 +244,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\logistics\Models\" />
+    <Folder Include="Areas\logistics\Views\Shared\" />
+    <Folder Include="Areas\shop\Models\" />
+    <Folder Include="Areas\shop\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -264,6 +273,16 @@
       <Project>{7A0D79F7-444B-48B1-993F-5818E60C5FCE}</Project>
       <Name>ECommDemo.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ECommDemo.ReadModel\ECommDemo.ViewModel.csproj">
+      <Project>{E1E395CE-A421-493A-9541-A860EAEA1611}</Project>
+      <Name>ECommDemo.ViewModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\shop\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\logistics\Views\Web.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

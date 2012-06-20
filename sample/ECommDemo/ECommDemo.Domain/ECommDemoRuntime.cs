@@ -1,4 +1,7 @@
-﻿using Castle.Windsor;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using Castle.Windsor;
 using ECommDemo.Commanding.Commands;
 using ECommDemo.Domain.CommandHandlers;
 using SimpleCqrs;
@@ -13,12 +16,14 @@ namespace ECommDemo.Domain
         private IWindsorContainer _container;
         private IEventStore _eventStore;
         private ISnapshotStore _snapshotStore;
+        private IEnumerable<Assembly> _assembliesToScan;
 
-        public ECommDemoRuntime(IWindsorContainer container, IEventStore eventStore, ISnapshotStore snapshotStore)
+        public ECommDemoRuntime(IWindsorContainer container, IEventStore eventStore, ISnapshotStore snapshotStore, IEnumerable<Assembly> assemblies)
         {
             _container = container;
             _eventStore = eventStore;
             _snapshotStore = snapshotStore;
+            _assembliesToScan = assemblies;
         }
 
         protected override WindsorServiceLocator GetServiceLocator()
@@ -38,11 +43,7 @@ namespace ECommDemo.Domain
 
         protected override System.Collections.Generic.IEnumerable<System.Reflection.Assembly> GetAssembliesToScan(IServiceLocator serviceLocator)
         {
-            return new[]
-                       {
-                             typeof(NewInventoryItemCommand).Assembly,
-                             typeof(NewInventoryItemCommandHandler).Assembly 
-                       };
+            return _assembliesToScan;
         }
     }
 }

@@ -10,6 +10,8 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using ECommDemo.Commanding.Commands;
 using ECommDemo.Domain.CommandHandlers;
+using ECommDemo.ViewModel.Inventory;
+using MongoDB.Driver;
 using SimpleCqrs;
 using SimpleCqrs.Commanding;
 using SimpleCqrs.EventStore.MongoDb;
@@ -18,26 +20,47 @@ using SimpleCqrs.Windsor;
 
 namespace ECommDemo.Web.Support
 {
+    public static class AssemblyToScanProvider
+    {
+        public static IEnumerable<Assembly> List
+        {
+            get
+            {
+                return new Assembly[]
+                {
+                    typeof(NewInventoryItemCommand).Assembly,
+                    typeof(NewInventoryItemCommandHandler).Assembly,
+                    typeof(InventoryItemDenormalizer).Assembly 
+                };
+            }
+        }
+    }
+
     public class SupportInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            const string singleDb = "server=localhost;database=ecomm";
             container.AddFacility<StartableFacility>();
 
             container.Register(
                 Component
                     .For<ITypeCatalog>()
-                    .UsingFactoryMethod(() => new AssemblyTypeCatalog(new Assembly[]
-                                                                          {
-                                                                             typeof(NewInventoryItemCommand).Assembly,
-                                                                             typeof(NewInventoryItemCommandHandler).Assembly 
-                                                                    })),
+                    .UsingFactoryMethod(() => new AssemblyTypeCatalog(AssemblyToScanProvider.List)),
                 Component
                     .For<IEventStore>()
-                    .UsingFactoryMethod(() => new MongoEventStore("server=localhost;database=ecomm")),
+                    .UsingFactoryMethod(() => new MongoEventStore(singleDb)),
+
                 Component
                     .For<ISnapshotStore>()
-                    .UsingFactoryMethod(() => new MongoSnapshotStore("server=localhost;database=ecomm"))
+                    .UsingFactoryMethod(() => new MongoSnapshotStore(singleDb)),
+
+                Component
+                    .For<MongoDatabase>()
+                    .Named("viewmodel-db")
+                    .UsingFactoryMethod(() => MongoServer.Create(new MongoConnectionStringBuilder(singleDb))
+                        .GetDatabase("ecomm"))
+                    .LifeStyle.Singleton
             );
 
             container.Register(

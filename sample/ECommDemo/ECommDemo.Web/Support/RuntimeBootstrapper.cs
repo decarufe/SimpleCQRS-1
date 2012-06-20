@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using Castle.Core;
 using Castle.Windsor;
@@ -14,10 +15,14 @@ namespace ECommDemo.Web.Support
     {
         private readonly ECommDemoRuntime _runtime;
 
-        public RuntimeBootstrapper(IWindsorContainer container)
+        public RuntimeBootstrapper(IWindsorContainer container, IEnumerable<Assembly> assembliesToScan)
         {
             Debug.Write("Bootstrapper");
-            _runtime = new ECommDemoRuntime(container, container.Resolve<IEventStore>(),container.Resolve<ISnapshotStore>());
+            _runtime = new ECommDemoRuntime(container
+                , container.Resolve<IEventStore>()
+                , container.Resolve<ISnapshotStore>()
+                , assembliesToScan
+            );
         }
 
         public void Start()

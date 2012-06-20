@@ -8,6 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Castle.Windsor;
 using ECommDemo.Domain.Support;
+using ECommDemo.ViewModel.Support;
 using ECommDemo.Web.Support;
 
 namespace ECommDemo.Web
@@ -29,7 +30,7 @@ namespace ECommDemo.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             SetupContainer();
-            _bootstrapper = new RuntimeBootstrapper(Container);
+            _bootstrapper = new RuntimeBootstrapper(Container, AssemblyToScanProvider.List);
             _bootstrapper.Start();
         }
 
@@ -38,7 +39,9 @@ namespace ECommDemo.Web
             Container = new WindsorContainer();
             Container.Install(
                     new SupportInstaller(),
-                    new HandlersInstaller()
+                    new HandlersInstaller(),
+                    new DomainEventHandlersInstaller(),
+                    new ViewModelInstaller().AddReaders().AddWriters()
                 );
         
             ControllerBuilder.Current.SetControllerFactory(new WindsorControllerFactory(Container));
