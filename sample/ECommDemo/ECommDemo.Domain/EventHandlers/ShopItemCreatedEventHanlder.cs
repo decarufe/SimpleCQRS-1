@@ -11,16 +11,18 @@ using SimpleCqrs.Eventing;
 
 namespace ECommDemo.Domain.EventHandlers
 {
-    public class InventoryItemCreatedEventHanlder : IHandleDomainEvents<InventoryItemCreatedEvent>
+    public class ShopItemCreatedEventHanlder : IHandleDomainEvents<ShopItemCreatedEvent>
     {
-        private ICommandBus _bus;
-        public InventoryItemCreatedEventHanlder(ICommandBus bus)
+        private readonly ICommandBus _bus;
+
+        public ShopItemCreatedEventHanlder(ICommandBus bus)
         {
             _bus = bus;
         }
 
-        public void Handle(InventoryItemCreatedEvent e)
+        public void Handle(ShopItemCreatedEvent e)
         {
+            _bus.Send(new NewInventoryItemCommand(e.ItemId, e.Description));
         }
     }
 }

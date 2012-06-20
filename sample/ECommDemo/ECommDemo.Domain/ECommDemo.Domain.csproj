@@ -67,6 +67,7 @@
     <Compile Include="CommandHandlers\NewInventoryItemCommandHandler.cs" />
     <Compile Include="CommandHandlers\NewShopItemCommandHandler.cs" />
     <Compile Include="ECommDemoRuntime.cs" />
+    <Compile Include="EventHandlers\ShopItemCreatedEventHanlder.cs" />
     <Compile Include="EventHandlers\InventoryItemCreatedEventHanlder.cs" />
     <Compile Include="InventoryContext\InventoryItem.cs" />
     <Compile Include="InventoryContext\InventoryItemCreatedEvent.cs" />

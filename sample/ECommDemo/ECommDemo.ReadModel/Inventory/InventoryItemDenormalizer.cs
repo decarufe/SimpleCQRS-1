@@ -18,7 +18,8 @@ namespace ECommDemo.ViewModel.Inventory
                                       {
                                           Id = e.AggregateRootId,
                                           ItemId = e.ItemId,
-                                          Description = e.Description
+                                          Description = e.Description,
+                                          InStock = 0
                                       });
         }
     }

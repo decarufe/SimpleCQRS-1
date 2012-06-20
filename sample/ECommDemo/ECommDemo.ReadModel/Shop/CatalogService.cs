@@ -9,10 +9,9 @@ namespace ECommDemo.ViewModel.Shop
     public class Item
     {
         public Guid Id { get; set; }
-        [BsonElement("itemid")]
         public string ItemId { get; set; }
-        [BsonElement("description")]
         public string Description { get; set; }
+        public decimal UnitPrice { get; set; }
     }
 
     public interface ICatalogReader : IReader
@@ -20,7 +19,7 @@ namespace ECommDemo.ViewModel.Shop
         IQueryable<Item> Items { get; }
     }
 
-    public interface ICatalogWriter
+    public interface ICatalogWriter : IWriter
     {
         void Save(Item item);
     }

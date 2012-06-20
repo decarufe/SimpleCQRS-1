@@ -143,6 +143,7 @@
     <Compile Include="Areas\logistics\Controllers\InventoryController.cs" />
     <Compile Include="Areas\logistics\logisticsAreaRegistration.cs" />
     <Compile Include="Areas\shop\Controllers\CatalogController.cs" />
+    <Compile Include="Areas\shop\Models\NewShopItemInputModel.cs" />
     <Compile Include="Areas\shop\shopAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -246,7 +247,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\logistics\Models\" />
     <Folder Include="Areas\logistics\Views\Shared\" />
-    <Folder Include="Areas\shop\Models\" />
     <Folder Include="Areas\shop\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +283,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\logistics\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\logistics\Views\Inventory\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\logistics\Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\shop\Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\shop\Views\Catalog\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\shop\Views\Catalog\Create.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

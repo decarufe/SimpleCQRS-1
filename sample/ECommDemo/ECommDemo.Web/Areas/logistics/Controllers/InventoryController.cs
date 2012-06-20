@@ -9,12 +9,17 @@ namespace ECommDemo.Web.Areas.logistics.Controllers
 {
     public class InventoryController : Controller
     {
+        private const int ItemsPerPage = 6;
         public IInventoryReader InventoryReader { get; set; }
 
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            var items = InventoryReader.Items.Count();
-            return Content("Inventory has " + items + " items");
+            page = Math.Max(page-1, 0);
+
+            ViewBag.Items       = InventoryReader.Items.Take(ItemsPerPage).Skip(page*ItemsPerPage).OrderBy(x => x.ItemId).ToList();
+            ViewBag.ItemsCount  = InventoryReader.Items.Count();
+
+            return View();
         }
     }
 }

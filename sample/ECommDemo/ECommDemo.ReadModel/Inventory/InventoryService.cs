@@ -9,10 +9,10 @@ namespace ECommDemo.ViewModel.Inventory
     public class Item
     {
         public Guid Id { get; set; }
-        [BsonElement("itemid")]
+        
         public string ItemId { get; set; }
-        [BsonElement("description")]
         public string Description { get; set; }
+        public decimal InStock { get; set; }
     }
 
     public interface IInventoryReader : IReader
