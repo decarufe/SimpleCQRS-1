@@ -10,7 +10,7 @@ namespace ECommDemo.Web.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to kick-start your ASP.NET MVC application.";
+            ViewBag.Message = "A sample CQRS application";
 
             return View();
         }
