@@ -7,12 +7,23 @@ using SimpleCqrs.Eventing;
 
 namespace ECommDemo.Domain.ShopContext
 {
-    public class ShopItemCreatedEvent : DomainEvent
+    public abstract class TenantDomainEvent : DomainEvent
+    {
+        public string TenantId { get; private set; }
+
+        protected TenantDomainEvent(string tenantId)
+        {
+            TenantId = tenantId;
+        }
+    }
+
+    public class ShopItemCreatedEvent : TenantDomainEvent
     {
         public string ItemId { get; protected set; }
         public string Description { get; protected set; }
 
-        public ShopItemCreatedEvent(string itemId, string description)
+        public ShopItemCreatedEvent(string tenant, string itemId, string description)
+            :base(tenant)
         {
             ItemId = itemId;
             Description = description;
@@ -29,9 +40,9 @@ namespace ECommDemo.Domain.ShopContext
         {
         }
 
-        public ShopItem(string id, string description)
+        public ShopItem(string shopid, string id, string description)
         {
-            Apply(new ShopItemCreatedEvent(id, description)
+            Apply(new ShopItemCreatedEvent(shopid, id, description)
                       {
                           AggregateRootId = Guid.NewGuid()
                       });

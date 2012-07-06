@@ -21,7 +21,7 @@ namespace SimpleCqrs.Commanding
         {
             var command = handlingContext.Command;
 
-            var domainRepository = _domainRepositoryResolver.GetRepository();
+            var domainRepository = _domainRepositoryResolver.GetRepository(null);
             try
             {
                 var aggregateRoot = domainRepository.GetById<TAggregateRoot>(command.AggregateRootId);

@@ -16,9 +16,9 @@ namespace ECommDemo.Domain.CommandHandlers
 
         public override void Handle(NewShopItemCommand command)
         {
-            var item = new ShopItem(command.ItemId, command.Description);
+            var item = new ShopItem(command.TenantId, command.ItemId, command.Description);
 
-            var repo = _repositoryResolver.GetRepository();
+            var repo = _repositoryResolver.GetRepository(command.TenantId);
             repo.Save(item);
             _repositoryResolver.Release(repo);
         }

@@ -2,7 +2,7 @@ namespace SimpleCqrs.Domain
 {
     public interface IDomainRepositoryResolver
     {
-        IDomainRepository GetRepository();
+        IDomainRepository GetRepository(string name);
         void Release(IDomainRepository repository);
     }
 }

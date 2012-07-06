@@ -63,8 +63,8 @@ namespace ECommDemo.Tests.EngineTests
         [Test]
         public void create_items_on_two_shops()
         {
-            var newItemShopA = new NewShopItemCommand("a", "Item for shop a");
-            var newItemShopB = new NewShopItemCommand("b", "Item for shop b");
+            var newItemShopA = new NewShopItemCommand("a", "a", "Item for shop a");
+            var newItemShopB = new NewShopItemCommand("b", "b", "Item for shop b");
             Send(newItemShopA);
             Send(newItemShopB);
         }

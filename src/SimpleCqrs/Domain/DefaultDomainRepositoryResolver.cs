@@ -6,7 +6,7 @@ namespace SimpleCqrs.Domain
         {
         }
 
-        public IDomainRepository GetRepository()
+        public IDomainRepository GetRepository(string name)
         {
             return ServiceLocator.Current.Resolve<IDomainRepository>();
         }

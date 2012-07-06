@@ -18,7 +18,7 @@ namespace ECommDemo.Domain.CommandHandlers
         {
             var item = new InventoryItem(command.ItemId, command.Description);
 
-            var repo = _repositoryResolver.GetRepository();
+            var repo = _repositoryResolver.GetRepository(command.TenantId);
             repo.Save(item);
             _repositoryResolver.Release(repo);
         }
