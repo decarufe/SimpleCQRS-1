@@ -7,18 +7,20 @@ namespace ECommDemo.Domain.CommandHandlers
 {
     public class NewShopItemCommandHandler : CommandHandler<NewShopItemCommand>
     {
-        private readonly IDomainRepository _repository;
+        private readonly IDomainRepositoryResolver _repositoryResolver;
 
-        public NewShopItemCommandHandler(IDomainRepository repository)
+        public NewShopItemCommandHandler(IDomainRepositoryResolver repositoryResolver)
         {
-            _repository = repository;
+            _repositoryResolver = repositoryResolver;
         }
 
         public override void Handle(NewShopItemCommand command)
         {
             var item = new ShopItem(command.ItemId, command.Description);
 
-            _repository.Save(item);
+            var repo = _repositoryResolver.GetRepository();
+            repo.Save(item);
+            _repositoryResolver.Release(repo);
         }
     }
 }
