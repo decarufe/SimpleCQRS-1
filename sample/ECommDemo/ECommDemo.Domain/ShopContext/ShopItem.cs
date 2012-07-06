@@ -38,7 +38,7 @@ namespace ECommDemo.Domain.ShopContext
         }
 
 
-        protected void OnItemCreated(ShopItemCreatedEvent e)
+        protected void OnShopItemCreated(ShopItemCreatedEvent e)
         {
             this.Id = e.AggregateRootId;
             this.ItemId = e.ItemId;
