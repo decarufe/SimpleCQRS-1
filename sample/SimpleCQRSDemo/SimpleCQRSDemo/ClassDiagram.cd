@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="SimpleCQRSDemo.CommandHandlers.CreateAccountCommandHandler">
+    <Position X="7.75" Y="2.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>CommandHandlers\CreateAccountCommandHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleCQRSDemo.Commands.CreateAccountCommand" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Commands\CreateAccountCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SimpleCQRSDemo.Denormalizers.AccountReportDenormalizer" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Denormalizers\AccountReportDenormalizer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SimpleCQRSDemo.Domain.Account">
+    <Position X="3.75" Y="3.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARAAAAAA=</HashCode>
+      <FileName>Domain\Account.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleCQRSDemo.Events.AccountCreatedEvent">
+    <Position X="5.5" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\AccountCreatedEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleCQRSDemo.Events.AccountNameSetEvent">
+    <Position X="5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Events\AccountNameSetEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleCQRSDemo.ReadModel.AccountReadModel">
+    <Position X="0.5" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ReadModel\AccountReadModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleCQRSDemo.SampleRunTime">
+    <Position X="7.75" Y="5.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SampleRunTime.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
