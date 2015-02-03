@@ -7,22 +7,34 @@ using SimpleCqrs.Domain;
 using SimpleCqrs.Eventing;
 using SimpleCqrs.EventStore.SqlServer;
 using SimpleCqrs.EventStore.SqlServer.Serializers;
+using System.Data.SqlClient;
 
 namespace SqlServerEventStoreSample
 {
     class Program
     {
+        // TODO: 0) Make sure to build the src\SimpleCQRS.sln before running this project. Otherwise, the referenced DLLs won't be available.
+        // TODO: 1) Create a database called [test_event_store]
+        // TODO: 2) Modify the server name as needed (e.g.: .\\SQL_EXPRESS instead of .)
+        private const string CONNECTION_STRING = "Server=.;Database=test_event_store;Trusted_Connection=True;";
         static void Main(string[] args)
         {
             var p = new Program();
-            
-           p.DoBinarySerializedEvents();
 
-            p.DoJsonSerializedEvents();
+            try
+            {
+                p.DoBinarySerializedEvents();
+
+                p.DoJsonSerializedEvents();
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         void DoBinarySerializedEvents() {
-            var json = new BinarySampleRuntime();
+            var json = new BinarySampleRuntime(CONNECTION_STRING);
             json.Start();
             
             var id = Guid.NewGuid();
@@ -49,7 +61,7 @@ namespace SqlServerEventStoreSample
 
         void DoJsonSerializedEvents()
         {
-            var json = new JsonSampleRuntime();
+            var json = new JsonSampleRuntime(CONNECTION_STRING);
             json.Start();
          
             var id = Guid.NewGuid();
@@ -69,19 +81,29 @@ namespace SqlServerEventStoreSample
 
     public class BinarySampleRuntime : SimpleCqrs.SimpleCqrsRuntime<SimpleCqrs.Unity.UnityServiceLocator>
     {
+        private readonly string CONNECTION_STRING;
+        public BinarySampleRuntime(string connectionString)
+        {
+            CONNECTION_STRING = connectionString;
+        }
         protected override IEventStore GetEventStore(SimpleCqrs.IServiceLocator serviceLocator) {
-            var configuration = new SqlServerConfiguration("Server=(local)\\sqlexpress;Database=test_event_store;Trusted_Connection=True;",
-                "dbo", "binary_event_store");
+            var configuration = new SqlServerConfiguration(CONNECTION_STRING);//,
+                //"dbo", "binary_event_store");
             return new SqlServerEventStore(configuration, new BinaryDomainEventSerializer());
         }
     }
 
     public class JsonSampleRuntime : SimpleCqrs.SimpleCqrsRuntime<SimpleCqrs.Unity.UnityServiceLocator>
     {
+        private readonly string CONNECTION_STRING;
+        public JsonSampleRuntime(string connectionString)
+        {
+            CONNECTION_STRING = connectionString;
+        }
         protected override IEventStore GetEventStore(SimpleCqrs.IServiceLocator serviceLocator)
         {
-            var configuration = new SqlServerConfiguration("Server=(local)\\sqlexpress;Database=test_event_store;Trusted_Connection=True;",
-                "dbo", "json_event_store");
+            var configuration = new SqlServerConfiguration(CONNECTION_STRING);//,
+                //"dbo", "json_event_store");
             return new SqlServerEventStore(configuration, new JsonDomainEventSerializer());
         }
     }
