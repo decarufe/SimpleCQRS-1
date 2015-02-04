@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using SimpleCqrs.Commanding;
 using SimpleCQRSDemo.Commands;
 using SimpleCQRSDemo.FakeDb;
@@ -35,12 +37,17 @@ namespace SimpleCQRSDemo
 
 
             // Create and send a couple of command
-            var cmdMarcus = new CreateAccountCommand { FirstName = "Marcus", LastName = "Hammarberg" };
-            var cmdDarren = new CreateAccountCommand { FirstName = "Darren", LastName = "Cauthon" };
-            var cmdTyrone = new CreateAccountCommand { FirstName = "Tyrone", LastName = "Groves" };
-            commandBus.Send(cmdMarcus);
-            commandBus.Send(cmdDarren);
-            commandBus.Send(cmdTyrone);
+            var accountReportReadModel = runtime.ServiceLocator.Resolve<AccountReportReadService>();
+            var accounts = accountReportReadModel.GetAccounts();
+            if (accounts.Count() == 0)
+            {
+                var cmdMarcus = new CreateAccountCommand { FirstName = "Marcus", LastName = "Hammarberg" };
+                var cmdDarren = new CreateAccountCommand { FirstName = "Darren", LastName = "Cauthon" };
+                var cmdTyrone = new CreateAccountCommand { FirstName = "Tyrone", LastName = "Groves" };
+                commandBus.Send(cmdMarcus);
+                commandBus.Send(cmdDarren);
+                commandBus.Send(cmdTyrone);
+            }
 
             ProcessMenu();
 
@@ -79,16 +86,16 @@ namespace SimpleCQRSDemo
                             ListAccounts();
                             break;
                         case 2:
-
+                            Console.WriteLine("... tba ...");
                             break;
                         case 3:
-
+                            Console.WriteLine("... tba ...");
                             break;
                         case 4:
-
+                            Console.WriteLine("... tba ...");
                             break;
                         case 5:
-
+                            Console.WriteLine("... tba ...");
                             break;
                         default:
                             Console.WriteLine("~ Invalid entry ~");
