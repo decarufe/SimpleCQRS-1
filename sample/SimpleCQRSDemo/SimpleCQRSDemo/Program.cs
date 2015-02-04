@@ -9,10 +9,14 @@ namespace SimpleCQRSDemo
 {
     class Program
     {
+        // TODO: 0) Make sure to build the src\SimpleCQRS.sln before running this project. Otherwise, the referenced DLLs won't be available.
+        // TODO: 1) Create a database called [test_event_store]
+        // TODO: 2) Modify the server name as needed (e.g.: .\\SQL_EXPRESS instead of .)
+        private const string CONNECTION_STRING = "Server=.;Database=test_event_store;Trusted_Connection=True;";
         static void Main(string[] args)
         {
 
-            var runtime = new SampleRunTime();
+            var runtime = new SampleRunTime(CONNECTION_STRING);
 
             runtime.Start();
 
