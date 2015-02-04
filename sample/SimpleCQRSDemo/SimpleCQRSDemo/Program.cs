@@ -16,8 +16,15 @@ namespace SimpleCQRSDemo
         static void Main(string[] args)
         {
 
-            var runtime = new SampleRunTime(CONNECTION_STRING);
+            var app = new Program();
+            app.Run();
+        }
 
+        SampleRunTime runtime;
+
+        private void Run()
+        {
+            runtime = new SampleRunTime(CONNECTION_STRING);
             runtime.Start();
 
             // Infrastructure and fakes
@@ -35,6 +42,64 @@ namespace SimpleCQRSDemo
             commandBus.Send(cmdDarren);
             commandBus.Send(cmdTyrone);
 
+            ProcessMenu();
+
+            runtime.Shutdown();
+
+            Console.ReadLine();
+        }
+        private void ShowMenu()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Menu:");
+            Console.WriteLine("1) List accounts");
+            Console.WriteLine("2) Show account transactions");
+            Console.WriteLine("3) Add account");
+            Console.WriteLine("4) Deposit");
+            Console.WriteLine("5) Withdrawal");
+            Console.WriteLine("0) Exit");
+            Console.WriteLine();
+        }
+
+        private void ProcessMenu()
+        {
+            int menuChoice;
+            do
+            {
+                ShowMenu();
+                Console.Write("\tSelect an item: ");
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out menuChoice))
+                {
+                    switch (menuChoice)
+                    {
+                        case 0:
+                            break;
+                        case 1:
+                            ListAccounts();
+                            break;
+                        case 2:
+
+                            break;
+                        case 3:
+
+                            break;
+                        case 4:
+
+                            break;
+                        case 5:
+
+                            break;
+                        default:
+                            Console.WriteLine("~ Invalid entry ~");
+                            break;
+                    }
+                }
+            } while (menuChoice != 0);
+        }
+
+        private void ListAccounts()
+        {
             // Get the denormalized version of the data back from the read model
             var accountReportReadModel = runtime.ServiceLocator.Resolve<AccountReportReadService>();
             Console.WriteLine("Accounts in database");
@@ -43,12 +108,6 @@ namespace SimpleCQRSDemo
             {
                 Console.WriteLine(" Id: {0} Name: {1}", account.Id, account.Name);
             }
-
-
-
-            runtime.Shutdown();
-
-            Console.ReadLine();
         }
     }
 }
