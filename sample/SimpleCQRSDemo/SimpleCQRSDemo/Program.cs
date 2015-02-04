@@ -42,6 +42,7 @@ namespace SimpleCQRSDemo
             var accounts = accountReportReadModel.GetAccounts();
             if (accounts.Count() == 0)
             {
+                Console.WriteLine("Adding initial data...\n\n\n");
                 var cmdMarcus = new CreateAccountCommand { FirstName = "Marcus", LastName = "Hammarberg" };
                 var cmdDarren = new CreateAccountCommand { FirstName = "Darren", LastName = "Cauthon" };
                 var cmdTyrone = new CreateAccountCommand { FirstName = "Tyrone", LastName = "Groves" };
