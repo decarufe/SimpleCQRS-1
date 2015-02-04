@@ -9,7 +9,7 @@ using SimpleCQRSDemo.ReadModel;
 
 namespace SimpleCQRSDemo
 {
-    class Program
+    class Program : IDisposable
     {
         // TODO: 0) Make sure to build the src\SimpleCQRS.sln before running this project. Otherwise, the referenced DLLs won't be available.
         // TODO: 1) Create a database called [test_event_store]
@@ -23,6 +23,7 @@ namespace SimpleCQRSDemo
         }
 
         SampleRunTime runtime;
+        ICommandBus commandBus;
 
         private void Run()
         {
@@ -33,7 +34,7 @@ namespace SimpleCQRSDemo
             var fakeAccountTable = new FakeAccountTable();
             runtime.ServiceLocator.Register(fakeAccountTable); // Create Fake-db
             runtime.ServiceLocator.Register(new AccountReportReadService(fakeAccountTable));
-            var commandBus = runtime.ServiceLocator.Resolve<ICommandBus>();
+            commandBus = runtime.ServiceLocator.Resolve<ICommandBus>();
 
 
             // Create and send a couple of command
@@ -55,6 +56,7 @@ namespace SimpleCQRSDemo
 
             Console.ReadLine();
         }
+
         private void ShowMenu()
         {
             Console.WriteLine();
@@ -82,19 +84,19 @@ namespace SimpleCQRSDemo
                     {
                         case 0:
                             break;
-                        case 1:
+                        case 1: // List accounts
                             ListAccounts();
                             break;
-                        case 2:
+                        case 2: // Show account transactions
                             Console.WriteLine("... tba ...");
                             break;
-                        case 3:
+                        case 3: // Add account
+                            AddAccount();
+                            break;
+                        case 4: // Deposit
                             Console.WriteLine("... tba ...");
                             break;
-                        case 4:
-                            Console.WriteLine("... tba ...");
-                            break;
-                        case 5:
+                        case 5: // Withdrawal
                             Console.WriteLine("... tba ...");
                             break;
                         default:
@@ -114,6 +116,27 @@ namespace SimpleCQRSDemo
             foreach (var account in accountReportReadModel.GetAccounts())
             {
                 Console.WriteLine(" Id: {0} Name: {1}", account.Id, account.Name);
+            }
+        }
+
+        private void AddAccount()
+        {
+            string first, last;
+            Console.Write("First Name: ");
+            first = Console.ReadLine();
+            Console.Write("Last Name: ");
+            last = Console.ReadLine();
+
+            var cmd = new CreateAccountCommand { FirstName = first, LastName = last };
+            commandBus.Send(cmd);
+        }
+
+        public void Dispose()
+        {
+            if (runtime != null)
+            {
+                runtime.Dispose();
+                runtime = null;
             }
         }
     }
