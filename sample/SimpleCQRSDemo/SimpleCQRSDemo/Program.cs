@@ -6,6 +6,8 @@ using SimpleCqrs.Commanding;
 using SimpleCQRSDemo.Commands;
 using SimpleCQRSDemo.FakeDb;
 using SimpleCQRSDemo.ReadModel;
+using SimpleCQRSDemo.Denormalizers;
+using SimpleCQRSDemo.Events;
 
 namespace SimpleCQRSDemo
 {
@@ -18,8 +20,20 @@ namespace SimpleCQRSDemo
         static void Main(string[] args)
         {
 
-            var app = new Program();
-            app.Run();
+            try
+            {
+                var app = new Program();
+                app.Run();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Exception inner = ex;
+                while (inner.InnerException != null)
+                    inner = inner.InnerException;
+                Console.WriteLine(inner.Message);
+                Console.WriteLine(ex.StackTrace);
+            }
         }
 
         SampleRunTime runtime;
@@ -31,13 +45,20 @@ namespace SimpleCQRSDemo
             runtime.Start();
 
             // Infrastructure and fakes
-            var fakeAccountTable = new FakeAccountTable();
-            runtime.ServiceLocator.Register(fakeAccountTable); // Create Fake-db
-            runtime.ServiceLocator.Register(new AccountReportReadService(fakeAccountTable));
+            //var fakeAccountTable = new FakeAccountTable();
+            //runtime.ServiceLocator.Register(fakeAccountTable); // Create Fake-db
+            //runtime.ServiceLocator.Register(new AccountReportReadService(fakeAccountTable));
+
+
+            var db = new SqlBankContext(CONNECTION_STRING);
+            runtime.ServiceLocator.Register(db);
+            //runtime.ServiceLocator.Register(new AccountReportReadService());
+            //runtime.ServiceLocator.Register <IHandleDomainEvents<AccountCreatedEvent>();//("AccountReportDenormalizer", typeof(AccountReportDenormalizer));
             commandBus = runtime.ServiceLocator.Resolve<ICommandBus>();
 
 
             // Create and send a couple of command
+            //var accountReportReadModel = new AccountReportReadService();
             var accountReportReadModel = runtime.ServiceLocator.Resolve<AccountReportReadService>();
             var accounts = accountReportReadModel.GetAccounts();
             if (accounts.Count() == 0)
