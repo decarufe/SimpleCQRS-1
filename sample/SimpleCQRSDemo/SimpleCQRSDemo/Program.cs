@@ -44,21 +44,13 @@ namespace SimpleCQRSDemo
             runtime = new SampleRunTime(CONNECTION_STRING);
             runtime.Start();
 
-            // Infrastructure and fakes
-            //var fakeAccountTable = new FakeAccountTable();
-            //runtime.ServiceLocator.Register(fakeAccountTable); // Create Fake-db
-            //runtime.ServiceLocator.Register(new AccountReportReadService(fakeAccountTable));
-
-
+            // Configure dependencies
             var db = new SqlBankContext(CONNECTION_STRING);
             runtime.ServiceLocator.Register(db);
-            //runtime.ServiceLocator.Register(new AccountReportReadService());
-            //runtime.ServiceLocator.Register <IHandleDomainEvents<AccountCreatedEvent>();//("AccountReportDenormalizer", typeof(AccountReportDenormalizer));
+
+            // Get the Command Bus
             commandBus = runtime.ServiceLocator.Resolve<ICommandBus>();
-
-
             // Create and send a couple of command
-            //var accountReportReadModel = new AccountReportReadService();
             var accountReportReadModel = runtime.ServiceLocator.Resolve<AccountReportReadService>();
             var accounts = accountReportReadModel.GetAccounts();
             if (accounts.Count() == 0)
@@ -133,11 +125,20 @@ namespace SimpleCQRSDemo
         {
             // Get the denormalized version of the data back from the read model
             var accountReportReadModel = runtime.ServiceLocator.Resolve<AccountReportReadService>();
-            Console.WriteLine("Accounts in database");
-            Console.WriteLine("####################");
-            foreach (var account in accountReportReadModel.GetAccounts())
+            IEnumerable<AccountReadModel> accounts = accountReportReadModel.GetAccounts();
+            int count = accounts.Count();
+            if (count > 0)
             {
-                Console.WriteLine(" Id: {0} Name: {1}", account.Id, account.Name);
+                Console.WriteLine("Accounts in database: " + count);
+                Console.WriteLine("#########################");
+                foreach (var account in accounts)
+                {
+                    Console.WriteLine(" Id: {0} Name: {1}", account.Id, account.Name);
+                }
+            }
+            else
+            {
+                Console.WriteLine("## No accounts in database read store ##");
             }
         }
 

@@ -4,13 +4,9 @@ using System;
 
 namespace SimpleCQRSDemo.FakeDb
 {
-    [System.Obsolete("Replace with a real DB", false)]
-    public class FakeAccountTable : List<FakeAccountTableRow>
-    { }
-
     public class SqlBankContext : DbContext
     {
-        public SqlBankContext(string connectionString) 
+        public SqlBankContext(string connectionString)
             : base(connectionString)
         {
         }

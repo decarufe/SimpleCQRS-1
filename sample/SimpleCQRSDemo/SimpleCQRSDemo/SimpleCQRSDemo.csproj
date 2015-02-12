@@ -72,8 +72,8 @@
     <Compile Include="Domain\Account.cs" />
     <Compile Include="Events\AccountCreatedEvent.cs" />
     <Compile Include="Events\AccountNameSetEvent.cs" />
-    <Compile Include="FakeDb\FakeAccountTableRow.cs" />
-    <Compile Include="FakeDb\FakeAccountTable.cs" />
+    <Compile Include="Database\Account.cs" />
+    <Compile Include="Database\SqlBankContext.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadModel\AccountReadModel.cs" />
