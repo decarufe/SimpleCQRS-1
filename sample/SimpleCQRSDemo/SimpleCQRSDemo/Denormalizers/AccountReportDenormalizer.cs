@@ -2,11 +2,14 @@
 using SimpleCqrs.Eventing;
 using SimpleCQRSDemo.Events;
 using SimpleCQRSDemo.FakeDb;
+using System;
 
 namespace SimpleCQRSDemo.Denormalizers
 {
     public class AccountReportDenormalizer : IHandleDomainEvents<AccountCreatedEvent>,
-                                             IHandleDomainEvents<AccountNameSetEvent>
+                                             IHandleDomainEvents<AccountNameSetEvent>,
+                                             IHandleDomainEvents<DepositEvent>,
+                                             IHandleDomainEvents<WithdrawalEvent>
     {
         private readonly SqlBankContext dbContext;
 
@@ -25,6 +28,20 @@ namespace SimpleCQRSDemo.Denormalizers
         {
             var account = dbContext.Accounts.SingleOrDefault(x => x.Id == domainEvent.AggregateRootId);
             account.Name = domainEvent.FirstName + " " + domainEvent.LastName;
+            dbContext.SaveChanges();
+        }
+
+        public void Handle(DepositEvent domainEvent)
+        {
+            var account = dbContext.Accounts.SingleOrDefault(x => x.Id == domainEvent.AggregateRootId);
+            account.Balance += domainEvent.Value.Amount;
+            dbContext.SaveChanges();
+        }
+
+        public void Handle(WithdrawalEvent domainEvent)
+        {
+            var account = dbContext.Accounts.SingleOrDefault(x => x.Id == domainEvent.AggregateRootId);
+            account.Balance -= domainEvent.Value.Amount;
             dbContext.SaveChanges();
         }
     }

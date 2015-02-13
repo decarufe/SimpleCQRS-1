@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SimpleCQRSDemo.FakeDb
 {
@@ -8,5 +9,8 @@ namespace SimpleCQRSDemo.FakeDb
         [Key]
         public Guid Id { get; set; }
         public string Name { get; set; }
+
+        [Column(TypeName="Money")]
+        public decimal Balance { get; set; }
     }
 }

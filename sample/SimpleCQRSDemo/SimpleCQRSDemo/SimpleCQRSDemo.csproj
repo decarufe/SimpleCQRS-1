@@ -67,13 +67,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandHandlers\CreateAccountCommandHandler.cs" />
+    <Compile Include="CommandHandlers\DepositCommandHandler.cs" />
+    <Compile Include="CommandHandlers\WithdrawalCommandHandler.cs" />
     <Compile Include="Commands\CreateAccountCommand.cs" />
+    <Compile Include="Commands\DepositCommand.cs" />
+    <Compile Include="Commands\WithdrawalCommand.cs" />
     <Compile Include="Denormalizers\AccountReportDenormalizer.cs" />
     <Compile Include="Domain\Account.cs" />
+    <Compile Include="Domain\NsfException.cs" />
+    <Compile Include="Domain\SimpleMoney.cs" />
     <Compile Include="Events\AccountCreatedEvent.cs" />
     <Compile Include="Events\AccountNameSetEvent.cs" />
     <Compile Include="Database\Account.cs" />
     <Compile Include="Database\SqlBankContext.cs" />
+    <Compile Include="Events\AccountNumberSetEvent.cs" />
+    <Compile Include="Events\DepositEvent.cs" />
+    <Compile Include="Events\WithdrawalEvent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadModel\AccountReadModel.cs" />

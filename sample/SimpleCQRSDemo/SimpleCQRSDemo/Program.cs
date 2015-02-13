@@ -45,6 +45,7 @@ namespace SimpleCQRSDemo
             runtime.Start();
 
             // Configure dependencies
+            System.Data.Entity.Database.SetInitializer<SqlBankContext>(new System.Data.Entity.DropCreateDatabaseIfModelChanges<SqlBankContext>());
             var db = new SqlBankContext(CONNECTION_STRING);
             runtime.ServiceLocator.Register(db);
 
@@ -108,10 +109,28 @@ namespace SimpleCQRSDemo
                             AddAccount();
                             break;
                         case 4: // Deposit
-                            Console.WriteLine("... tba ...");
+                            {
+                                Console.Write("Index of account: ");
+                                int index = int.Parse(Console.ReadLine());
+                                var accountReportReadModel = runtime.ServiceLocator.Resolve<AccountReportReadService>();
+                                IEnumerable<AccountReadModel> accounts = accountReportReadModel.GetAccounts();
+                                Console.Write("Amount to deposit: ");
+                                decimal amount = decimal.Parse(Console.ReadLine());
+                                var cmd = new DepositCommand { Amount = amount, Id = accounts.ToArray()[index].Id };
+                                commandBus.Send(cmd);
+                            }
                             break;
                         case 5: // Withdrawal
-                            Console.WriteLine("... tba ...");
+                            {
+                                Console.Write("Index of account: ");
+                                int index = int.Parse(Console.ReadLine());
+                                var accountReportReadModel = runtime.ServiceLocator.Resolve<AccountReportReadService>();
+                                IEnumerable<AccountReadModel> accounts = accountReportReadModel.GetAccounts();
+                                Console.Write("Amount to withdraw: ");
+                                decimal amount = decimal.Parse(Console.ReadLine());
+                                var cmd = new WithdrawalCommand { Amount = amount, Id = accounts.ToArray()[index].Id };
+                                commandBus.Send(cmd);
+                            }
                             break;
                         default:
                             Console.WriteLine("~ Invalid entry ~");
@@ -131,9 +150,11 @@ namespace SimpleCQRSDemo
             {
                 Console.WriteLine("Accounts in database: " + count);
                 Console.WriteLine("#########################");
+                int index = 0;
                 foreach (var account in accounts)
                 {
-                    Console.WriteLine(" Id: {0} Name: {1}", account.Id, account.Name);
+                    Console.WriteLine("{2}) Id: {0} Name: {1}", account.Id, account.Name, index);
+                    index++;
                 }
             }
             else
