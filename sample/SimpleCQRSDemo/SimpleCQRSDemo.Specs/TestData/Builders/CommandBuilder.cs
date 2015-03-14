@@ -41,5 +41,30 @@ namespace SimpleCQRSDemo.Specs.TestData.Builders
                 return new CreateAccountCommand { AccountNumber = Get(x => x.AccountNumber), FirstName = Get(x => x.FirstName), LastName = Get(x => x.LastName) };
             }
         }
+        
+        public class DepositBuilder : TestDataBuilder<DepositCommand, DepositBuilder>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="DepositBuilder"/> class.
+            /// </summary>
+            public DepositBuilder()
+            {
+                Set(x => x.Amount, 50m);
+            }
+            public DepositBuilder WithAmount(decimal amount)
+            {
+                Set(x => x.Amount, amount);
+                return this;
+            }
+            public DepositBuilder WithId(Guid id)
+            {
+                Set(x => x.Id, id);
+                return this;
+            }
+            protected override DepositCommand BuildObject()
+            {
+                return new DepositCommand { Id = Get(x => x.Id), Amount = Get(x => x.Amount) };
+            }
+        }
     }
 }
