@@ -15,9 +15,9 @@ namespace SimpleCqrs.Rhino.ServiceBus
         public int Execute<TCommand>(TCommand command) where TCommand : ICommand
         {
             var replyConsumer = new ReplyConsumer<TCommand>();
-            using(serviceBus.AddInstanceSubscription(replyConsumer))
+            using (serviceBus.AddInstanceSubscription(replyConsumer))
             {
-                serviceBus.Send(new Request<TCommand>{Command = command });
+                serviceBus.Send(new Request<TCommand> {Command = command});
                 if (!replyConsumer.Event.WaitOne(50000))
                     throw new ExecuteTimeoutException();
 

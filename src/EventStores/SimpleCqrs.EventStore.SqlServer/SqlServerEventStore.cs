@@ -38,8 +38,9 @@ namespace SimpleCqrs.EventStore.SqlServer
             using (var connection = new SqlConnection(configuration.ConnectionString))
             {
                 connection.Open();
-                var sql = string.Format(SqlStatements.GetEventsByAggregateRootAndSequence, "", "EventStore", aggregateRootId,
-                                        startSequence);
+                var sql = string.Format(SqlStatements.GetEventsByAggregateRootAndSequence, "", "EventStore",
+                    aggregateRootId,
+                    startSequence);
                 using (var command = new SqlCommand(sql, connection))
                 using (var reader = command.ExecuteReader())
                     while (reader.Read())
@@ -50,9 +51,13 @@ namespace SimpleCqrs.EventStore.SqlServer
                         try
                         {
                             events.Add(serializer.Deserialize(Type.GetType(type), data));
-                        } catch(ArgumentNullException ex) 
+                        }
+                        catch (ArgumentNullException ex)
                         {
-                            throw new Exception(string.Format("Cannot find type '{0}', yet the type is in the event store. Are you sure you haven't changed a class name or something arising from mental dullness?", type.Split(',')[0]), ex.InnerException);
+                            throw new Exception(
+                                string.Format(
+                                    "Cannot find type '{0}', yet the type is in the event store. Are you sure you haven't changed a class name or something arising from mental dullness?",
+                                    type.Split(',')[0]), ex.InnerException);
                         }
                     }
                 connection.Close();
@@ -64,9 +69,11 @@ namespace SimpleCqrs.EventStore.SqlServer
         {
             var sql = new StringBuilder();
             foreach (var domainEvent in domainEvents)
-                sql.AppendFormat(SqlStatements.InsertEvents, "EventStore", TypeToStringHelperMethods.GetString(domainEvent.GetType()), domainEvent.AggregateRootId, domainEvent.EventDate, domainEvent.Sequence,
-                                 (serializer.Serialize(domainEvent) ?? string.Empty)
-                                 .Replace("'", "''"));
+                sql.AppendFormat(SqlStatements.InsertEvents, "EventStore",
+                    TypeToStringHelperMethods.GetString(domainEvent.GetType()), domainEvent.AggregateRootId,
+                    domainEvent.EventDate, domainEvent.Sequence,
+                    (serializer.Serialize(domainEvent) ?? string.Empty)
+                        .Replace("'", "''"));
 
             if (sql.Length <= 0) return;
 
@@ -109,7 +116,8 @@ namespace SimpleCqrs.EventStore.SqlServer
             throw new NotImplementedException();
         }
 
-        public IEnumerable<DomainEvent> GetEventsByEventTypes(IEnumerable<Type> domainEventTypes, DateTime startDate, DateTime endDate)
+        public IEnumerable<DomainEvent> GetEventsByEventTypes(IEnumerable<Type> domainEventTypes, DateTime startDate,
+            DateTime endDate)
         {
             throw new NotImplementedException();
         }

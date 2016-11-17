@@ -21,7 +21,7 @@ namespace SimpleCqrs.Core.Tests
             {
                 throw new AssertFailedException(
                     string.Format("Expected exception was not thrown! Got other exception: '{0}'.", ex.GetType())
-                    ,ex);
+                    , ex);
             }
 
             throw new AssertFailedException("Expected exception was not thrown! None was thrown.");

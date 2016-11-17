@@ -34,7 +34,7 @@ namespace SimpleCqrs.Unity
 
         public UnityServiceLocator(IUnityContainer container)
         {
-            if(container == null)
+            if (container == null)
                 throw new ArgumentNullException("container", "The specified Unity container cannot be null.");
 
             Container = container;
@@ -154,7 +154,7 @@ namespace SimpleCqrs.Unity
 
         public TService Inject<TService>(TService instance) where TService : class
         {
-            return instance == null ? instance : (TService)Container.BuildUp(instance.GetType(), instance);
+            return instance == null ? instance : (TService) Container.BuildUp(instance.GetType(), instance);
         }
 
         public void TearDown<TService>(TService instance) where TService : class

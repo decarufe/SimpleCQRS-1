@@ -49,7 +49,8 @@ namespace SimpleCqrs.Core.Tests.Domain
 
             aggregateRoot.Apply(domainEvent);
 
-            mockAggregateRoot.Verify(ar => ar.OnAggregateRootHandlerThatDoesNotMeetsConvention(domainEvent), Times.Never());
+            mockAggregateRoot.Verify(ar => ar.OnAggregateRootHandlerThatDoesNotMeetsConvention(domainEvent),
+                Times.Never());
         }
 
         [TestMethod]
@@ -60,7 +61,8 @@ namespace SimpleCqrs.Core.Tests.Domain
 
             aggregateRoot.Apply(domainEvent);
 
-            mockAggregateRoot.Verify(ar => ar.OnAggregateRootHandlerThatMeetsConvention(domainEvent, "test"), Times.Never());
+            mockAggregateRoot.Verify(ar => ar.OnAggregateRootHandlerThatMeetsConvention(domainEvent, "test"),
+                Times.Never());
         }
 
         [TestMethod]
@@ -163,12 +165,12 @@ namespace SimpleCqrs.Core.Tests.Domain
         {
             var aggregateRoot = new MyAggregateRoot();
             var domainEvents = new List<AggregateRootHandlerThatMeetsConventionEvent>
-                                   {
-                                       new AggregateRootHandlerThatMeetsConventionEvent {Sequence = 5},
-                                       new AggregateRootHandlerThatMeetsConventionEvent {Sequence = 1},
-                                       new AggregateRootHandlerThatMeetsConventionEvent {Sequence = 100},
-                                       new AggregateRootHandlerThatMeetsConventionEvent {Sequence = 2}
-                                   };
+            {
+                new AggregateRootHandlerThatMeetsConventionEvent {Sequence = 5},
+                new AggregateRootHandlerThatMeetsConventionEvent {Sequence = 1},
+                new AggregateRootHandlerThatMeetsConventionEvent {Sequence = 100},
+                new AggregateRootHandlerThatMeetsConventionEvent {Sequence = 2}
+            };
 
             aggregateRoot.LoadFromHistoricalEvents(domainEvents.ToArray());
 
@@ -189,58 +191,56 @@ namespace SimpleCqrs.Core.Tests.Domain
             aggregateRoot.Apply(new AggregateRootHandlerThatMeetsConventionEvent());
 
             var allAggregateRootIdsMatch = aggregateRoot.UncommittedEvents
-                                                .All(domainEvent => domainEvent.AggregateRootId == aggregateRootId);
+                .All(domainEvent => domainEvent.AggregateRootId == aggregateRootId);
             Assert.IsTrue(allAggregateRootIdsMatch);
         }
 
-		[TestMethod]
-		public void WhenEventModifierIsSetModificationsAreApplied()
-		{
-			// Arrange
-			var fakeModification = new FakeModification
-			{
-				ModifyValueTo = "Yes we can"
-			};
-			var aggregateRoot = new MyAggregateRoot();
-			var domainEvent = new EventForModificationTestEvent();
+        [TestMethod]
+        public void WhenEventModifierIsSetModificationsAreApplied()
+        {
+            // Arrange
+            var fakeModification = new FakeModification
+            {
+                ModifyValueTo = "Yes we can"
+            };
+            var aggregateRoot = new MyAggregateRoot();
+            var domainEvent = new EventForModificationTestEvent();
 
-			EventModifier.Modification = fakeModification;
+            EventModifier.Modification = fakeModification;
 
-			// Act
-			aggregateRoot.Apply(domainEvent);
+            // Act
+            aggregateRoot.Apply(domainEvent);
 
-			// Assert
-			Assert.AreEqual(domainEvent.ModifiedValue, fakeModification.ModifyValueTo);
+            // Assert
+            Assert.AreEqual(domainEvent.ModifiedValue, fakeModification.ModifyValueTo);
 
-			// Teardown
-			EventModifier.Modification = null;
-		}
+            // Teardown
+            EventModifier.Modification = null;
+        }
 
-    	private class FakeModification : IEventModification
-		{
-			public void Apply(DomainEvent e)
-			{
-				if (e is EventForModificationTestEvent)
-					((EventForModificationTestEvent)e).ModifiedValue = ModifyValueTo;
-			}
+        private class FakeModification : IEventModification
+        {
+            public void Apply(DomainEvent e)
+            {
+                if (e is EventForModificationTestEvent)
+                    ((EventForModificationTestEvent) e).ModifiedValue = ModifyValueTo;
+            }
 
-    		public string ModifyValueTo { get; set; }
-		}
+            public string ModifyValueTo { get; set; }
+        }
 
-    	private class EventForModificationTestEvent : DomainEvent
-		{
-			public string ModifiedValue { get; set; }
-		}
+        private class EventForModificationTestEvent : DomainEvent
+        {
+            public string ModifiedValue { get; set; }
+        }
     }
 
-	public class MyEntity : Entity
+    public class MyEntity : Entity
     {
     }
 
     public class MyAggregateRoot : AggregateRoot
     {
-        private int count;
-
         public MyAggregateRoot()
         {
             EventIds = new List<int>();
@@ -251,25 +251,30 @@ namespace SimpleCqrs.Core.Tests.Domain
         public bool OnAggregateRootPrivateHandlerThatMeetsConventionCalled { get; set; }
         public bool OnAggregateRootProtectedHandlerThatMeetsConventionCalled { get; set; }
 
-        public virtual void OnAggregateRootHandlerThatMeetsConvention(AggregateRootHandlerThatMeetsConventionEvent domainEvent)
+        public virtual void OnAggregateRootHandlerThatMeetsConvention(
+            AggregateRootHandlerThatMeetsConventionEvent domainEvent)
         {
             EventIds.Add(domainEvent.Sequence);
         }
 
-        public virtual void OnAggregateRootHandlerThatDoesNotMeetsConvention(AggregateRootHandlerThatMeetsConventionEvent domainEvent)
+        public virtual void OnAggregateRootHandlerThatDoesNotMeetsConvention(
+            AggregateRootHandlerThatMeetsConventionEvent domainEvent)
         {
         }
 
-        public virtual void OnAggregateRootHandlerThatMeetsConvention(AggregateRootHandlerThatMeetsConventionEvent domainEvent, string test)
+        public virtual void OnAggregateRootHandlerThatMeetsConvention(
+            AggregateRootHandlerThatMeetsConventionEvent domainEvent, string test)
         {
         }
 
-        private void OnAggregateRootPrivateHandlerThatMeetsConvention(AggregateRootPrivateHandlerThatMeetsConventionEvent domainEvent)
+        private void OnAggregateRootPrivateHandlerThatMeetsConvention(
+            AggregateRootPrivateHandlerThatMeetsConventionEvent domainEvent)
         {
             OnAggregateRootPrivateHandlerThatMeetsConventionCalled = true;
         }
 
-        protected void OnAggregateRootProtectedHandlerThatMeetsConvention(AggregateRootProtectedHandlerThatMeetsConventionEvent domainEvent)
+        protected void OnAggregateRootProtectedHandlerThatMeetsConvention(
+            AggregateRootProtectedHandlerThatMeetsConventionEvent domainEvent)
         {
             OnAggregateRootProtectedHandlerThatMeetsConventionCalled = true;
         }

@@ -31,7 +31,7 @@ namespace SimpleCqrs.NServiceBus.Commanding.Config
 
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return ((CommandEndpointMapping)element).Commands;
+            return ((CommandEndpointMapping) element).Commands;
         }
 
         public int IndexOf(CommandEndpointMapping mapping)
@@ -41,7 +41,7 @@ namespace SimpleCqrs.NServiceBus.Commanding.Config
 
         public void Remove(CommandEndpointMapping mapping)
         {
-            if(BaseIndexOf(mapping) >= 0)
+            if (BaseIndexOf(mapping) >= 0)
             {
                 BaseRemove(mapping.Commands);
             }
@@ -64,10 +64,10 @@ namespace SimpleCqrs.NServiceBus.Commanding.Config
 
         public CommandEndpointMapping this[int index]
         {
-            get { return (CommandEndpointMapping)BaseGet(index); }
+            get { return (CommandEndpointMapping) BaseGet(index); }
             set
             {
-                if(BaseGet(index) != null)
+                if (BaseGet(index) != null)
                 {
                     BaseRemoveAt(index);
                 }
@@ -77,7 +77,7 @@ namespace SimpleCqrs.NServiceBus.Commanding.Config
 
         public new CommandEndpointMapping this[string name]
         {
-            get { return (CommandEndpointMapping)BaseGet(name); }
+            get { return (CommandEndpointMapping) BaseGet(name); }
         }
     }
 }

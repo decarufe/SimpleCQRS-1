@@ -20,27 +20,31 @@ namespace SimpleCqrs.Core.Tests.Commanding
         }
 
         [TestMethod]
-        public void CommandHandlerNotFoundExceptionIsNotThrownWhenNoCommandHandlerIsFoundForASentCommandAndCommandBusIsInTestMode()
+        public void
+            CommandHandlerNotFoundExceptionIsNotThrownWhenNoCommandHandlerIsFoundForASentCommandAndCommandBusIsInTestMode
+            ()
         {
             mocker.GetMock<ITypeCatalog>()
                 .Setup(typeCatalog => typeCatalog.GetGenericInterfaceImplementations(typeof(IHandleCommands<>)))
                 .Returns(new[] {typeof(MyTestCommandHandler)});
 
             var commandBus = CreateCommandBus(serviceLocator);
-            ((IHaveATestMode)commandBus).IsInTestMode = true;
+            ((IHaveATestMode) commandBus).IsInTestMode = true;
 
             commandBus.Send(new MyTest3Command());
         }
 
         [TestMethod]
-        public void CommandHandlerNotFoundExceptionIsNotThrownWhenNoCommandHandlerIsFoundForAnExecutedCommandAndCommandBusIsInTestMode()
+        public void
+            CommandHandlerNotFoundExceptionIsNotThrownWhenNoCommandHandlerIsFoundForAnExecutedCommandAndCommandBusIsInTestMode
+            ()
         {
             mocker.GetMock<ITypeCatalog>()
                 .Setup(typeCatalog => typeCatalog.GetGenericInterfaceImplementations(typeof(IHandleCommands<>)))
                 .Returns(new[] {typeof(MyTestCommandHandler)});
 
             var commandBus = CreateCommandBus(serviceLocator);
-            ((IHaveATestMode)commandBus).IsInTestMode = true;
+            ((IHaveATestMode) commandBus).IsInTestMode = true;
 
             commandBus.Execute(new MyTest3Command {ReturnValue = 321});
         }
@@ -79,10 +83,10 @@ namespace SimpleCqrs.Core.Tests.Commanding
             mocker.GetMock<ITypeCatalog>()
                 .Setup(typeCatalog => typeCatalog.GetGenericInterfaceImplementations(typeof(IHandleCommands<>)))
                 .Returns(new[]
-                             {
-                                 typeof(MyTestCommandHandler),
-                                 typeof(MyTestCommandHandler)
-                             });
+                {
+                    typeof(MyTestCommandHandler),
+                    typeof(MyTestCommandHandler)
+                });
 
             var commandBus = CreateCommandBus(serviceLocator);
             commandBus.Execute(new MyTestCommand());

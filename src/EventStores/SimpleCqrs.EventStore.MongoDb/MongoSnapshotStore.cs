@@ -30,7 +30,7 @@ namespace SimpleCqrs.EventStore.MongoDb
             mongo.Connect();
 
             _database = mongo.GetDatabase(connectionStringBuilder.DatabaseName, SafeMode.True);
-            
+
             // setup 
             Collection.EnsureIndex(
                 new IndexKeysBuilder().Ascending("AggregateRootId")

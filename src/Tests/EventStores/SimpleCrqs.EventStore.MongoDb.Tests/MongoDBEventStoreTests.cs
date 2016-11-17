@@ -13,7 +13,7 @@ namespace SimpleCrqs.EventStore.MongoDb.Tests
 {
     public class MongoDBRuntime : SimpleCqrs.SimpleCqrsRuntime<WindsorServiceLocator>
     {
-        protected override IEventStore  GetEventStore(IServiceLocator serviceLocator)
+        protected override IEventStore GetEventStore(IServiceLocator serviceLocator)
         {
             return new MongoEventStore("server=localhost;database=cqrs-events");
         }
@@ -48,14 +48,14 @@ namespace SimpleCrqs.EventStore.MongoDb.Tests
 
         public void CreateMe(Guid id)
         {
-            Apply(new FooCreatedEvent{AggregateRootId = id, Bar = "foobar"});
+            Apply(new FooCreatedEvent {AggregateRootId = id, Bar = "foobar"});
         }
 
         public void ChangeName(string name)
         {
-            Apply(new FooNameChangedEvent { AggregateRootId = this.Id, Name = name });
+            Apply(new FooNameChangedEvent {AggregateRootId = this.Id, Name = name});
         }
-        
+
         public void OnFooCreated(FooCreatedEvent domainEvent)
         {
             Id = domainEvent.AggregateRootId;
@@ -69,11 +69,11 @@ namespace SimpleCrqs.EventStore.MongoDb.Tests
         public Snapshot GetSnapshot()
         {
             return new FooRootSnapshot()
-                       {
-                           AggregateRootId = this.Id,
-                           LastEventSequence = this.LastEventSequence,
-                           Name = this.Name
-                       };
+            {
+                AggregateRootId = this.Id,
+                LastEventSequence = this.LastEventSequence,
+                Name = this.Name
+            };
         }
 
         public void LoadSnapshot(Snapshot snapshot)
@@ -99,7 +99,7 @@ namespace SimpleCrqs.EventStore.MongoDb.Tests
             var runtime = new MongoDBRuntime();
 
             runtime.Start();
-            
+
             var id = Guid.NewGuid();
 
             var root = new FooRoot();

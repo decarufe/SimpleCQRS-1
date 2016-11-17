@@ -14,7 +14,7 @@ namespace SimpleCqrs.NServiceBus.Eventing
         DomainEvent IDomainEventMessage.DomainEvent
         {
             get { return DomainEvent; }
-            set { DomainEvent = (TDomainEvent)value; }
+            set { DomainEvent = (TDomainEvent) value; }
         }
     }
 }

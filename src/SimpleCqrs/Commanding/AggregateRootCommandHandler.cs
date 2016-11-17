@@ -8,7 +8,8 @@ namespace SimpleCqrs.Commanding
         where TAggregateRoot : AggregateRoot, new()
     {
         private readonly IDomainRepositoryResolver _domainRepositoryResolver;
-        protected AggregateRootCommandHandler() : this( ServiceLocator.Current.Resolve<IDomainRepositoryResolver>())
+
+        protected AggregateRootCommandHandler() : this(ServiceLocator.Current.Resolve<IDomainRepositoryResolver>())
         {
         }
 
@@ -33,15 +34,15 @@ namespace SimpleCqrs.Commanding
                 if (aggregateRoot != null)
                     domainRepository.Save(aggregateRoot);
             }
-            finally 
+            finally
             {
                 if (domainRepository != null)
                     _domainRepositoryResolver.Release(domainRepository);
             }
-
         }
 
-        private void ValidateTheCommand(ICommandHandlingContext<TCommand> handlingContext, TCommand command, TAggregateRoot aggregateRoot)
+        private void ValidateTheCommand(ICommandHandlingContext<TCommand> handlingContext, TCommand command,
+            TAggregateRoot aggregateRoot)
         {
             ValidationResult = ValidateCommand(command, aggregateRoot);
             handlingContext.Return(ValidationResult);

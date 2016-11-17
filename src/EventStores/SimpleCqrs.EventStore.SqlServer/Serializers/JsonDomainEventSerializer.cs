@@ -9,7 +9,6 @@ namespace SimpleCqrs.EventStore.SqlServer.Serializers
 {
     public class JsonDomainEventSerializer : IDomainEventSerializer
     {
-
         public string Serialize(DomainEvent domainEvent)
         {
             return JsonSerializer.SerializeToString(domainEvent, domainEvent.GetType());
@@ -17,15 +16,17 @@ namespace SimpleCqrs.EventStore.SqlServer.Serializers
 
         public DomainEvent Deserialize(Type targetType, string serializedDomainEvent)
         {
-            return (DomainEvent)JsonSerializer.DeserializeFromString(serializedDomainEvent, targetType);
+            return (DomainEvent) JsonSerializer.DeserializeFromString(serializedDomainEvent, targetType);
         }
     }
 
     public class BinaryDomainEventSerializer : IDomainEventSerializer
     {
-        public string Serialize(DomainEvent domainEvent) {
+        public string Serialize(DomainEvent domainEvent)
+        {
             var formatter = new BinaryFormatter();
-            using (var stream = new MemoryStream()) {
+            using (var stream = new MemoryStream())
+            {
                 formatter.Serialize(stream, domainEvent);
                 stream.Flush();
                 stream.Position = 0;
@@ -33,12 +34,13 @@ namespace SimpleCqrs.EventStore.SqlServer.Serializers
             }
         }
 
-        public DomainEvent Deserialize(Type targetType, string serializedDomainEvent) {
+        public DomainEvent Deserialize(Type targetType, string serializedDomainEvent)
+        {
             var formatter = new BinaryFormatter();
-            using (var stream = new MemoryStream(Convert.FromBase64String(serializedDomainEvent))) {
-                return (DomainEvent)formatter.Deserialize(stream);
+            using (var stream = new MemoryStream(Convert.FromBase64String(serializedDomainEvent)))
+            {
+                return (DomainEvent) formatter.Deserialize(stream);
             }
         }
     }
-
 }

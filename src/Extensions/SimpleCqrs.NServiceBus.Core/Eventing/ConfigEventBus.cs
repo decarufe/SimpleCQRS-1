@@ -20,19 +20,21 @@ namespace SimpleCqrs.NServiceBus.Eventing
             var domainEventBusConfig = GetConfigSection<DomainEventBusConfig>();
             var domainEventTypes = typeCatalog.GetDerivedTypes(typeof(DomainEvent));
             var domainEventMessageTypes = new List<Type>();
-            var bus = (UnicastBus)config
+            var bus = (UnicastBus) config
                 .MsmqTransport()
                 .UnicastBus()
-                    .LoadMessageHandlers(new First<DomainEventMessageHandler>())
-                    .CreateBus();
+                .LoadMessageHandlers(new First<DomainEventMessageHandler>())
+                .CreateBus();
 
-            RegisterAssemblyDomainEventSubscriptionMappings(domainEventBusConfig, domainEventTypes, domainEventMessageTypes, bus);
+            RegisterAssemblyDomainEventSubscriptionMappings(domainEventBusConfig, domainEventTypes,
+                domainEventMessageTypes, bus);
             RegisterDomainEventSubscriptionMappings(domainEventBusConfig, domainEventTypes, domainEventMessageTypes, bus);
 
             bus.Started += (s, e) => domainEventMessageTypes.ForEach(bus.Subscribe);
         }
 
-        private static void RegisterDomainEventSubscriptionMappings(DomainEventBusConfig domainEventBusConfig, IEnumerable<Type> domainEventTypes, ICollection<Type> domainEventMessageTypes, UnicastBus bus)
+        private static void RegisterDomainEventSubscriptionMappings(DomainEventBusConfig domainEventBusConfig,
+            IEnumerable<Type> domainEventTypes, ICollection<Type> domainEventMessageTypes, UnicastBus bus)
         {
             var domainEventMessageType = typeof(DomainEventMessage<>);
             foreach (DomainEventEndpointMapping mapping in domainEventBusConfig.DomainEventEndpointMappings)
@@ -49,12 +51,13 @@ namespace SimpleCqrs.NServiceBus.Eventing
             }
         }
 
-        private static void RegisterAssemblyDomainEventSubscriptionMappings(DomainEventBusConfig domainEventBusConfig, IEnumerable<Type> domainEventTypes, ICollection<Type> domainEventMessageTypes, UnicastBus bus)
+        private static void RegisterAssemblyDomainEventSubscriptionMappings(DomainEventBusConfig domainEventBusConfig,
+            IEnumerable<Type> domainEventTypes, ICollection<Type> domainEventMessageTypes, UnicastBus bus)
         {
             var domainEventMessageType = typeof(DomainEventMessage<>);
-            foreach(DomainEventEndpointMapping mapping in domainEventBusConfig.DomainEventEndpointMappings)
+            foreach (DomainEventEndpointMapping mapping in domainEventBusConfig.DomainEventEndpointMappings)
             {
-                foreach(var domainEventType in domainEventTypes)
+                foreach (var domainEventType in domainEventTypes)
                 {
                     if (DomainEventsIsAssembly(domainEventType, mapping.DomainEvents))
                     {

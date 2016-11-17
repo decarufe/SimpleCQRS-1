@@ -10,14 +10,14 @@ namespace SimpleCqrs.NServiceBus.Eventing.Config
         [ConfigurationProperty(EndpointPropertyName, IsRequired = true, IsKey = true)]
         public string Endpoint
         {
-            get { return (string)base[EndpointPropertyName]; }
+            get { return (string) base[EndpointPropertyName]; }
             set { base[EndpointPropertyName] = value; }
         }
 
         [ConfigurationProperty(DomainEventsPropertyName, IsRequired = true, IsKey = true)]
         public string DomainEvents
         {
-            get { return (string)base[DomainEventsPropertyName]; }
+            get { return (string) base[DomainEventsPropertyName]; }
             set { base[DomainEventsPropertyName] = value; }
         }
     }

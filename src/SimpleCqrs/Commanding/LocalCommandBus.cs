@@ -10,7 +10,8 @@ namespace SimpleCqrs.Commanding
 
         public LocalCommandBus(ITypeCatalog typeCatalog, IServiceLocator serviceLocator)
         {
-            commandInvokers = CommandInvokerDictionaryBuilderHelpers.CreateADictionaryOfCommandInvokers(typeCatalog, serviceLocator);
+            commandInvokers = CommandInvokerDictionaryBuilderHelpers.CreateADictionaryOfCommandInvokers(typeCatalog,
+                serviceLocator);
         }
 
         bool IHaveATestMode.IsInTestMode { get; set; }
@@ -24,16 +25,17 @@ namespace SimpleCqrs.Commanding
         public void Send<TCommand>(TCommand command) where TCommand : ICommand
         {
             var commandHandler = GetTheCommandHandler(command);
-            
+
             if (commandHandler == null) return;
-            
+
             commandHandler.Send(command);
         }
 
         private CommandHandlerInvoker GetTheCommandHandler(ICommand command)
         {
             CommandHandlerInvoker commandInvoker;
-            if(!commandInvokers.TryGetValue(command.GetType(), out commandInvoker) && !((IHaveATestMode)this).IsInTestMode)
+            if (!commandInvokers.TryGetValue(command.GetType(), out commandInvoker) &&
+                !((IHaveATestMode) this).IsInTestMode)
                 throw new CommandHandlerNotFoundException(command.GetType());
             return commandInvoker;
         }
@@ -55,7 +57,7 @@ namespace SimpleCqrs.Commanding
             {
                 var handlingContext = CreateTheCommandHandlingContext(command);
                 ExecuteTheCommandHandler(handlingContext);
-                return ((ICommandHandlingContext)handlingContext).ReturnValue;
+                return ((ICommandHandlingContext) handlingContext).ReturnValue;
             }
 
             public void Send(ICommand command)
@@ -71,12 +73,13 @@ namespace SimpleCqrs.Commanding
 
                 try
                 {
-                    handleMethod.Invoke(commandHandler, new object[] { handlingContext });
+                    handleMethod.Invoke(commandHandler, new object[] {handlingContext});
                 }
-                catch(TargetInvocationException ex)
+                catch (TargetInvocationException ex)
                 {
                     throw new Exception(
-                        string.Format("Command handler '{0}' for '{1}' failed. Inspect inner exception.", commandHandler.GetType().Name, handlingContext.Command.GetType().Name),
+                        string.Format("Command handler '{0}' for '{1}' failed. Inspect inner exception.",
+                            commandHandler.GetType().Name, handlingContext.Command.GetType().Name),
                         ex.InnerException);
                 }
             }
@@ -84,7 +87,7 @@ namespace SimpleCqrs.Commanding
             private ICommandHandlingContext<ICommand> CreateTheCommandHandlingContext(ICommand command)
             {
                 var handlingContextType = typeof(CommandHandlingContext<>).MakeGenericType(commandType);
-                return (ICommandHandlingContext<ICommand>)Activator.CreateInstance(handlingContextType, command);
+                return (ICommandHandlingContext<ICommand>) Activator.CreateInstance(handlingContextType, command);
             }
 
             private object CreateTheCommandHandler()

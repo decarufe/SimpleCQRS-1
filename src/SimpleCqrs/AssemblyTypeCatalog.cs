@@ -23,10 +23,10 @@ namespace SimpleCqrs
         public Type[] GetDerivedTypes(Type type)
         {
             return (
-                       from derivedType in loadedTypes
-                       where type != derivedType
-                       where type.IsAssignableFrom(derivedType)
-                       select derivedType).ToArray();
+                from derivedType in loadedTypes
+                where type != derivedType
+                where type.IsAssignableFrom(derivedType)
+                select derivedType).ToArray();
         }
 
         public Type[] GetDerivedTypes<T>()
@@ -37,18 +37,18 @@ namespace SimpleCqrs
         public Type[] GetGenericInterfaceImplementations(Type type)
         {
             return (from derivedType in loadedTypes
-                    from interfaceType in derivedType.GetInterfaces()
-                    where interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == type
-                    select derivedType).Distinct().ToArray();
+                from interfaceType in derivedType.GetInterfaces()
+                where interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == type
+                select derivedType).Distinct().ToArray();
         }
 
         public Type[] GetInterfaceImplementations(Type type)
         {
             return (from derivedType in loadedTypes
-                    where !derivedType.IsInterface
-                    from interfaceType in derivedType.GetInterfaces()
-                    where interfaceType == type
-                    select derivedType).Distinct().ToArray();
+                where !derivedType.IsInterface
+                from interfaceType in derivedType.GetInterfaces()
+                where interfaceType == type
+                select derivedType).Distinct().ToArray();
         }
 
         public Type[] GetInterfaceImplementations<T>()
@@ -59,14 +59,14 @@ namespace SimpleCqrs
         private static IEnumerable<Type> LoadTypes(IEnumerable<Assembly> assemblies)
         {
             var loadedTypes = new List<Type>();
-            foreach(var assembly in assemblies)
+            foreach (var assembly in assemblies)
             {
                 try
                 {
                     var types = assembly.GetTypes();
                     loadedTypes.AddRange(types);
                 }
-                catch(ReflectionTypeLoadException exception)
+                catch (ReflectionTypeLoadException exception)
                 {
                     exception.LoaderExceptions
                         .Select(e => e.Message)

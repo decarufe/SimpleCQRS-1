@@ -9,7 +9,7 @@ namespace SimpleCqrs.Rhino.ServiceBus
         ICommand IRequest.Command
         {
             get { return Command; }
-            set { Command = (TCommand)value; }
+            set { Command = (TCommand) value; }
         }
     }
 

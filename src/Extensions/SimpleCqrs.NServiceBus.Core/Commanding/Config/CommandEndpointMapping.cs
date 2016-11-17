@@ -10,14 +10,14 @@ namespace SimpleCqrs.NServiceBus.Commanding.Config
         [ConfigurationProperty(EndpointPropertyName, IsRequired = true, IsKey = true)]
         public string Endpoint
         {
-            get { return (string)base[EndpointPropertyName]; }
+            get { return (string) base[EndpointPropertyName]; }
             set { base[EndpointPropertyName] = value; }
         }
 
         [ConfigurationProperty(CommandsPropertyName, IsRequired = false)]
         public string Commands
         {
-            get { return (string)base[CommandsPropertyName]; }
+            get { return (string) base[CommandsPropertyName]; }
             set { base[CommandsPropertyName] = value; }
         }
     }

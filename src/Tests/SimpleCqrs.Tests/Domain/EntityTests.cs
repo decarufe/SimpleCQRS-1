@@ -16,7 +16,7 @@ namespace SimpleCqrs.Core.Tests.Domain
         [TestInitialize]
         public void SetupMockForAllTests()
         {
-            mockEntity = new Mock<MyEntity>(new Guid()) { CallBase = true };
+            mockEntity = new Mock<MyEntity>(new Guid()) {CallBase = true};
         }
 
         [TestMethod]
@@ -124,7 +124,7 @@ namespace SimpleCqrs.Core.Tests.Domain
             var entityId = Guid.NewGuid();
             var entity = new MyEntity(entityId);
             entity.TurnTestModeOn();
-            
+
             entity.Apply(new MyEntityCreatedEvent());
 
             Assert.AreEqual(entity.UncommittedEvents[0].EntityId, entityId);
@@ -135,7 +135,7 @@ namespace SimpleCqrs.Core.Tests.Domain
             public List<int> EventIds { get; private set; }
             public bool OnEntityPrivateHandlerThatMeetsConventionCalled { get; set; }
             public bool OnEntityProtectedHandlerThatMeetsConventionCalled { get; set; }
-            
+
             public MyEntity(Guid entityId)
             {
                 EventIds = new List<int>();
@@ -147,20 +147,24 @@ namespace SimpleCqrs.Core.Tests.Domain
                 EventIds.Add(domainEvent.Sequence);
             }
 
-            public virtual void OnEntityHandlerThatDoesNotMeetsConvention(EntityHandlerThatMeetsConventionEvent domainEvent)
+            public virtual void OnEntityHandlerThatDoesNotMeetsConvention(
+                EntityHandlerThatMeetsConventionEvent domainEvent)
             {
             }
 
-            public virtual void OnEntityHandlerThatMeetsConvention(EntityHandlerThatMeetsConventionEvent domainEvent, string test)
+            public virtual void OnEntityHandlerThatMeetsConvention(EntityHandlerThatMeetsConventionEvent domainEvent,
+                string test)
             {
             }
 
-            private void OnEntityPrivateHandlerThatMeetsConvention(EntityPrivateHandlerThatMeetsConventionEvent domainEvent)
+            private void OnEntityPrivateHandlerThatMeetsConvention(
+                EntityPrivateHandlerThatMeetsConventionEvent domainEvent)
             {
                 OnEntityPrivateHandlerThatMeetsConventionCalled = true;
             }
 
-            protected void OnEntityProtectedHandlerThatMeetsConvention(EntityProtectedHandlerThatMeetsConventionEvent domainEvent)
+            protected void OnEntityProtectedHandlerThatMeetsConvention(
+                EntityProtectedHandlerThatMeetsConventionEvent domainEvent)
             {
                 OnEntityProtectedHandlerThatMeetsConventionCalled = true;
             }

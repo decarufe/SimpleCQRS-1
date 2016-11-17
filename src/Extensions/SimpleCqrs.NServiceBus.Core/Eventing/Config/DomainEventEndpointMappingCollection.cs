@@ -31,7 +31,7 @@ namespace SimpleCqrs.NServiceBus.Eventing.Config
 
         protected override object GetElementKey(ConfigurationElement element)
         {
-            var domainEventEndpointMapping = ((DomainEventEndpointMapping)element);
+            var domainEventEndpointMapping = ((DomainEventEndpointMapping) element);
             return domainEventEndpointMapping.DomainEvents;
         }
 
@@ -42,7 +42,7 @@ namespace SimpleCqrs.NServiceBus.Eventing.Config
 
         public void Remove(DomainEventEndpointMapping mapping)
         {
-            if(BaseIndexOf(mapping) >= 0)
+            if (BaseIndexOf(mapping) >= 0)
             {
                 BaseRemove(mapping.DomainEvents);
             }
@@ -65,10 +65,10 @@ namespace SimpleCqrs.NServiceBus.Eventing.Config
 
         public DomainEventEndpointMapping this[int index]
         {
-            get { return (DomainEventEndpointMapping)BaseGet(index); }
+            get { return (DomainEventEndpointMapping) BaseGet(index); }
             set
             {
-                if(BaseGet(index) != null)
+                if (BaseGet(index) != null)
                 {
                     BaseRemoveAt(index);
                 }
@@ -78,7 +78,7 @@ namespace SimpleCqrs.NServiceBus.Eventing.Config
 
         public new DomainEventEndpointMapping this[string name]
         {
-            get { return (DomainEventEndpointMapping)BaseGet(name); }
+            get { return (DomainEventEndpointMapping) BaseGet(name); }
         }
     }
 }

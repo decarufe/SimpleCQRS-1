@@ -28,7 +28,7 @@ namespace SimpleCqrs.Utilites
             var domainEventTypes = GetDomainEventTypesHandledByHandler(handlerType);
 
             var domainEvents = eventStore.GetEventsByEventTypes(domainEventTypes, aggregateRootId);
-            var eventBus = new LocalEventBus(new[] { handlerType }, new DomainEventHandlerFactory(serviceLocator));
+            var eventBus = new LocalEventBus(new[] {handlerType}, new DomainEventHandlerFactory(serviceLocator));
 
             eventBus.PublishEvents(domainEvents);
         }
@@ -50,9 +50,9 @@ namespace SimpleCqrs.Utilites
         private static IEnumerable<Type> GetDomainEventTypesHandledByHandler(Type handlerType)
         {
             return (from i in handlerType.GetInterfaces()
-                    where i.IsGenericType
-                    where i.GetGenericTypeDefinition() == typeof(IHandleDomainEvents<>)
-                    select i.GetGenericArguments()[0]).ToList();
+                where i.IsGenericType
+                where i.GetGenericTypeDefinition() == typeof(IHandleDomainEvents<>)
+                select i.GetGenericArguments()[0]).ToList();
         }
     }
 }

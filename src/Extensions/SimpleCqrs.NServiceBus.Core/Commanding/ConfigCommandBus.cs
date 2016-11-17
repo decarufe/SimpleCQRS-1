@@ -41,9 +41,12 @@ namespace SimpleCqrs.NServiceBus.Commanding
             return new NsbCommandBus(runtime.ServiceLocator, CommandTypeToDestinationLookup, ExecuteCommandTimeout);
         }
 
-        private void RegisterCommandDestinationMappings(CommandBusConfig commandBusConfig, IEnumerable<Type> commandTypes)
+        private void RegisterCommandDestinationMappings(CommandBusConfig commandBusConfig,
+            IEnumerable<Type> commandTypes)
         {
-            foreach (var mapping in GetCommandEndpointMappingsForCommand(commandBusConfig.CommandEndpointMappings, commandTypes))
+            foreach (
+                var mapping in
+                GetCommandEndpointMappingsForCommand(commandBusConfig.CommandEndpointMappings, commandTypes))
             {
                 foreach (var commandType in commandTypes)
                 {
@@ -58,13 +61,16 @@ namespace SimpleCqrs.NServiceBus.Commanding
             }
         }
 
-        private void RegisterAssemblyCommandDestinationMappings(CommandBusConfig commandBusConfig, IEnumerable<Type> commandTypes)
+        private void RegisterAssemblyCommandDestinationMappings(CommandBusConfig commandBusConfig,
+            IEnumerable<Type> commandTypes)
         {
-            foreach(var mapping in GetCommandEndpointMappingsForAssembly(commandBusConfig.CommandEndpointMappings, commandTypes))
+            foreach (
+                var mapping in
+                GetCommandEndpointMappingsForAssembly(commandBusConfig.CommandEndpointMappings, commandTypes))
             {
-                foreach(var commandType in commandTypes)
+                foreach (var commandType in commandTypes)
                 {
-                    if(CommandTypeIsInCommandAssembly(commandType, mapping.Commands))
+                    if (CommandTypeIsInCommandAssembly(commandType, mapping.Commands))
                     {
                         commandTypeToDestinationLookup.Add(commandType, mapping.Endpoint);
                     }
@@ -72,18 +78,30 @@ namespace SimpleCqrs.NServiceBus.Commanding
             }
         }
 
-        private static IEnumerable<CommandEndpointMapping> GetCommandEndpointMappingsForAssembly(CommandEndpointMappingCollection commandEndpointMappings, IEnumerable<Type> commandTypes)
+        private static IEnumerable<CommandEndpointMapping> GetCommandEndpointMappingsForAssembly(
+            CommandEndpointMappingCollection commandEndpointMappings, IEnumerable<Type> commandTypes)
         {
             return commandEndpointMappings
                 .Cast<CommandEndpointMapping>()
-                .Where(mapping => commandTypes.Any(t => t.Assembly.GetName().Name.Equals(mapping.Commands,StringComparison.InvariantCultureIgnoreCase)));
+                .Where(
+                    mapping =>
+                        commandTypes.Any(
+                            t =>
+                                t.Assembly.GetName()
+                                    .Name.Equals(mapping.Commands, StringComparison.InvariantCultureIgnoreCase)));
         }
 
-        private static IEnumerable<CommandEndpointMapping> GetCommandEndpointMappingsForCommand(CommandEndpointMappingCollection commandEndpointMappings, IEnumerable<Type> commandTypes)
+        private static IEnumerable<CommandEndpointMapping> GetCommandEndpointMappingsForCommand(
+            CommandEndpointMappingCollection commandEndpointMappings, IEnumerable<Type> commandTypes)
         {
             return commandEndpointMappings
                 .Cast<CommandEndpointMapping>()
-                .Where(mapping => commandTypes.Any(t => t.FullName.Equals(mapping.Commands, StringComparison.InvariantCultureIgnoreCase) || t.Name.Equals(mapping.Commands, StringComparison.InvariantCultureIgnoreCase)));
+                .Where(
+                    mapping =>
+                        commandTypes.Any(
+                            t =>
+                                t.FullName.Equals(mapping.Commands, StringComparison.InvariantCultureIgnoreCase) ||
+                                t.Name.Equals(mapping.Commands, StringComparison.InvariantCultureIgnoreCase)));
         }
 
         private static bool CommandTypeIsInCommandAssembly(Type commandType, string commandAssembly)

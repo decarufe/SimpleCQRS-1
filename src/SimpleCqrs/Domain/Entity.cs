@@ -24,7 +24,7 @@ namespace SimpleCqrs.Domain
         {
             domainEvent.EntityId = Id;
 
-            if(!((IHaveATestMode)this).IsInTestMode)
+            if (!((IHaveATestMode) this).IsInTestMode)
                 AggregateRoot.Apply(domainEvent);
 
             _uncommittedEvents.Enqueue(domainEvent);
@@ -33,9 +33,9 @@ namespace SimpleCqrs.Domain
 
         public void ApplyHistoricalEvents(params EntityDomainEvent[] entityDomainEvents)
         {
-            foreach(var entityDomainEvent in entityDomainEvents)
+            foreach (var entityDomainEvent in entityDomainEvents)
             {
-                ApplyEventToInternalState(entityDomainEvent);    
+                ApplyEventToInternalState(entityDomainEvent);
             }
         }
 
@@ -54,10 +54,10 @@ namespace SimpleCqrs.Domain
             var entityType = GetType();
 
             var methodInfo = entityType.GetMethod(GetEventHandlerMethodName(domainEventTypeName),
-                                                  BindingFlags.Instance | BindingFlags.Public |
-                                                  BindingFlags.NonPublic, null, new[] {domainEventType}, null);
+                BindingFlags.Instance | BindingFlags.Public |
+                BindingFlags.NonPublic, null, new[] {domainEventType}, null);
 
-            if(methodInfo == null || !EventHandlerMethodInfoHasCorrectParameter(methodInfo, domainEventType)) return;
+            if (methodInfo == null || !EventHandlerMethodInfoHasCorrectParameter(methodInfo, domainEventType)) return;
 
             methodInfo.Invoke(this, new[] {domainEvent});
         }
@@ -68,7 +68,8 @@ namespace SimpleCqrs.Domain
             return "On" + domainEventTypeName.Remove(eventIndex, 5);
         }
 
-        private static bool EventHandlerMethodInfoHasCorrectParameter(MethodInfo eventHandlerMethodInfo, Type domainEventType)
+        private static bool EventHandlerMethodInfoHasCorrectParameter(MethodInfo eventHandlerMethodInfo,
+            Type domainEventType)
         {
             var parameters = eventHandlerMethodInfo.GetParameters();
             return parameters.Length == 1 && parameters[0].ParameterType == domainEventType;

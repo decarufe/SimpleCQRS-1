@@ -19,7 +19,7 @@ namespace SimpleCqrs.NServiceBus.Eventing
 
         public void PublishEvent(DomainEvent domainEvent)
         {
-            if(!eventHandlerInvokers.ContainsKey(domainEvent.GetType())) return;
+            if (!eventHandlerInvokers.ContainsKey(domainEvent.GetType())) return;
 
             var eventHandlerInvoker = eventHandlerInvokers[domainEvent.GetType()];
             eventHandlerInvoker.Publish(domainEvent);
@@ -27,19 +27,19 @@ namespace SimpleCqrs.NServiceBus.Eventing
 
         public void PublishEvents(IEnumerable<DomainEvent> domainEvents)
         {
-            foreach(var domainEvent in domainEvents)
+            foreach (var domainEvent in domainEvents)
                 PublishEvent(domainEvent);
         }
 
         private void BuildEventInvokers(IEnumerable<Type> eventHandlerTypes)
         {
             eventHandlerInvokers = new Dictionary<Type, EventHandlerInvoker>();
-            foreach(var eventHandlerType in eventHandlerTypes)
+            foreach (var eventHandlerType in eventHandlerTypes)
             {
-                foreach(var domainEventType in GetDomainEventTypes(eventHandlerType))
+                foreach (var domainEventType in GetDomainEventTypes(eventHandlerType))
                 {
                     EventHandlerInvoker eventInvoker;
-                    if(!eventHandlerInvokers.TryGetValue(domainEventType, out eventInvoker))
+                    if (!eventHandlerInvokers.TryGetValue(domainEventType, out eventInvoker))
                         eventInvoker = new EventHandlerInvoker(eventHandlerBuilder, domainEventType);
 
                     eventInvoker.AddEventHandlerType(eventHandlerType);
@@ -51,8 +51,9 @@ namespace SimpleCqrs.NServiceBus.Eventing
         private static IEnumerable<Type> GetDomainEventTypes(Type eventHandlerType)
         {
             return from interfaceType in eventHandlerType.GetInterfaces()
-                   where interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == typeof(IHandleDomainEvents<>)
-                   select interfaceType.GetGenericArguments()[0];
+                where
+                interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == typeof(IHandleDomainEvents<>)
+                select interfaceType.GetGenericArguments()[0];
         }
 
         private class EventHandlerInvoker
@@ -79,21 +80,23 @@ namespace SimpleCqrs.NServiceBus.Eventing
                 var exceptionList = new List<Exception>();
 
                 var handleMethod = typeof(IHandleDomainEvents<>).MakeGenericType(domainEventType).GetMethod("Handle");
-                foreach(var eventHandlerType in eventHandlerTypes)
+                foreach (var eventHandlerType in eventHandlerTypes)
                 {
                     try
                     {
                         var eventHandler = eventHandlerFactory.Create(eventHandlerType);
                         handleMethod.Invoke(eventHandler, new object[] {domainEvent});
                     }
-                    catch(Exception exception)
+                    catch (Exception exception)
                     {
-                        logger.Error(string.Format("An exception occured while handling event of type '{0}'\nMessage: {1}", domainEvent.GetType(), exception.Message), exception);
+                        logger.Error(
+                            string.Format("An exception occured while handling event of type '{0}'\nMessage: {1}",
+                                domainEvent.GetType(), exception.Message), exception);
                         exceptionList.Add(exception);
                     }
                 }
 
-                if(exceptionList.Count > 0)
+                if (exceptionList.Count > 0)
                     throw new AggregateException(exceptionList);
             }
         }

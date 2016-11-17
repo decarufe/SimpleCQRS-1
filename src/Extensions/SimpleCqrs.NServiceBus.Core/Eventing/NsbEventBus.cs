@@ -29,7 +29,7 @@ namespace SimpleCqrs.NServiceBus.Eventing
         private static IDomainEventMessage CreateDomainEventMessage(DomainEvent domainEvent)
         {
             var domainEventMessageType = typeof(DomainEventMessage<>).MakeGenericType(domainEvent.GetType());
-            var message = (IDomainEventMessage)Activator.CreateInstance(domainEventMessageType);
+            var message = (IDomainEventMessage) Activator.CreateInstance(domainEventMessageType);
             message.DomainEvent = domainEvent;
             return message;
         }

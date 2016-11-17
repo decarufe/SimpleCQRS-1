@@ -10,7 +10,7 @@ namespace SimpleCqrs.Domain
     public abstract class AggregateRoot
     {
         private readonly Queue<DomainEvent> _uncommittedEvents = new Queue<DomainEvent>();
-        private readonly List<Entity> _entities = new List<Entity>(); 
+        private readonly List<Entity> _entities = new List<Entity>();
 
         public Guid Id { get; protected internal set; }
         public int LastEventSequence { get; protected internal set; }
@@ -22,7 +22,7 @@ namespace SimpleCqrs.Domain
 
         public void LoadFromHistoricalEvents(params DomainEvent[] domainEvents)
         {
-            if(domainEvents.Length == 0) return;
+            if (domainEvents.Length == 0) return;
 
             var domainEventList = domainEvents.OrderBy(domainEvent => domainEvent.Sequence).ToList();
             LastEventSequence = domainEventList.Last().Sequence;
@@ -36,7 +36,7 @@ namespace SimpleCqrs.Domain
             ApplyEventToInternalState(domainEvent);
             domainEvent.AggregateRootId = Id;
             domainEvent.EventDate = DateTime.Now;
-            
+
             EventModifier.Modify(domainEvent);
 
             _uncommittedEvents.Enqueue(domainEvent);
@@ -63,12 +63,12 @@ namespace SimpleCqrs.Domain
             var domainEventTypeName = domainEventType.Name;
             var aggregateRootType = GetType();
 
-        	var eventHandlerMethodName = GetEventHandlerMethodName(domainEventTypeName);
-        	var methodInfo = aggregateRootType.GetMethod(eventHandlerMethodName,
-                                                         BindingFlags.Instance | BindingFlags.Public |
-                                                         BindingFlags.NonPublic, null, new[] {domainEventType}, null);
+            var eventHandlerMethodName = GetEventHandlerMethodName(domainEventTypeName);
+            var methodInfo = aggregateRootType.GetMethod(eventHandlerMethodName,
+                BindingFlags.Instance | BindingFlags.Public |
+                BindingFlags.NonPublic, null, new[] {domainEventType}, null);
 
-            if(methodInfo != null && EventHandlerMethodInfoHasCorrectParameter(methodInfo, domainEventType))
+            if (methodInfo != null && EventHandlerMethodInfoHasCorrectParameter(methodInfo, domainEventType))
             {
                 methodInfo.Invoke(this, new[] {domainEvent});
             }
@@ -91,7 +91,8 @@ namespace SimpleCqrs.Domain
             return "On" + domainEventTypeName.Remove(eventIndex, 5);
         }
 
-        private static bool EventHandlerMethodInfoHasCorrectParameter(MethodInfo eventHandlerMethodInfo, Type domainEventType)
+        private static bool EventHandlerMethodInfoHasCorrectParameter(MethodInfo eventHandlerMethodInfo,
+            Type domainEventType)
         {
             var parameters = eventHandlerMethodInfo.GetParameters();
             return parameters.Length == 1 && parameters[0].ParameterType == domainEventType;

@@ -11,7 +11,8 @@ namespace SimpleCqrs.NServiceBus.Commanding
         private readonly IDictionary<Type, string> commandTypeToDestinationLookup;
         private readonly TimeSpan executeTimeout;
 
-        public NsbCommandBus(IServiceLocator serviceLocator, IDictionary<Type, string> commandTypeToDestinationLookup, TimeSpan executeTimeout)
+        public NsbCommandBus(IServiceLocator serviceLocator, IDictionary<Type, string> commandTypeToDestinationLookup,
+            TimeSpan executeTimeout)
         {
             this.serviceLocator = serviceLocator;
             this.commandTypeToDestinationLookup = commandTypeToDestinationLookup;
@@ -36,10 +37,10 @@ namespace SimpleCqrs.NServiceBus.Commanding
                 .Send<CommandWithReturnValueMessage>(destination, message => message.Command = command)
                 .Register(state => { }, null);
 
-            if(!asyncResult.AsyncWaitHandle.WaitOne(executeTimeout))
+            if (!asyncResult.AsyncWaitHandle.WaitOne(executeTimeout))
                 throw new ExecuteTimeoutException();
 
-            return ((CompletionResult)asyncResult.AsyncState).ErrorCode;
+            return ((CompletionResult) asyncResult.AsyncState).ErrorCode;
         }
 
         public void Send<TCommand>(TCommand command) where TCommand : ICommand

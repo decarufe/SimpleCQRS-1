@@ -23,7 +23,7 @@ namespace SimpleCqrs.Rhino.ServiceBus
         public void Consume(IRequest request)
         {
             var validationResult = commandBus.Execute(request.Command);
-            var reply = (IReply)Activator.CreateInstance(typeof(Reply<>).MakeGenericType(request.Command.GetType()));
+            var reply = (IReply) Activator.CreateInstance(typeof(Reply<>).MakeGenericType(request.Command.GetType()));
             reply.ValidationResult = validationResult;
             serviceBus.Reply(reply);
         }

@@ -20,7 +20,7 @@ namespace SimpleCqrs
         /// </summary>
         public TServiceLocator ServiceLocator
         {
-            get { return (TServiceLocator)SimpleCqrs.ServiceLocator.Current; }
+            get { return (TServiceLocator) SimpleCqrs.ServiceLocator.Current; }
         }
 
         /// <summary>
@@ -165,12 +165,13 @@ namespace SimpleCqrs
         }
 
 
-        protected virtual IEnumerable<IRegisterComponents> GetComponentRegistrars(Type componentRegistarType, IServiceLocator serviceLocator)
+        protected virtual IEnumerable<IRegisterComponents> GetComponentRegistrars(Type componentRegistarType,
+            IServiceLocator serviceLocator)
         {
             var typeCatalog = serviceLocator.Resolve<ITypeCatalog>();
-            var componentRegistrarTypes = componentRegistarType.IsInterface ? 
-                typeCatalog.GetInterfaceImplementations(componentRegistarType) : 
-                typeCatalog.GetDerivedTypes(componentRegistarType);
+            var componentRegistrarTypes = componentRegistarType.IsInterface
+                ? typeCatalog.GetInterfaceImplementations(componentRegistarType)
+                : typeCatalog.GetDerivedTypes(componentRegistarType);
 
             return componentRegistrarTypes
                 .Select(serviceLocator.Resolve)

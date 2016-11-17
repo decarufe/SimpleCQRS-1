@@ -15,7 +15,7 @@ namespace SimpleCqrs.Commanding
 
         private static IEnumerable<Type> GetAllCommandHandlerTypes(ITypeCatalog typeCatalog)
         {
-            return typeCatalog.GetGenericInterfaceImplementations(typeof (IHandleCommands<>));
+            return typeCatalog.GetGenericInterfaceImplementations(typeof(IHandleCommands<>));
         }
 
         private static IDictionary<Type, LocalCommandBus.CommandHandlerInvoker> CreateCommandInvokersForTheseTypes(
@@ -31,8 +31,8 @@ namespace SimpleCqrs.Commanding
                         throw new DuplicateCommandHandlersException(commandType);
 
                     commandInvokerDictionary.Add(commandType,
-                                                 new LocalCommandBus.CommandHandlerInvoker(serviceLocator, commandType,
-                                                                                           commandHandlerType));
+                        new LocalCommandBus.CommandHandlerInvoker(serviceLocator, commandType,
+                            commandHandlerType));
                 }
             }
             return commandInvokerDictionary;
@@ -41,10 +41,10 @@ namespace SimpleCqrs.Commanding
         private static IEnumerable<Type> GetCommandTypesForCommandHandler(Type commandHandlerType)
         {
             return (from interfaceType in commandHandlerType.GetInterfaces()
-                    where
-                        interfaceType.IsGenericType &&
-                        interfaceType.GetGenericTypeDefinition() == typeof (IHandleCommands<>)
-                    select interfaceType.GetGenericArguments()[0]).ToArray();
+                where
+                interfaceType.IsGenericType &&
+                interfaceType.GetGenericTypeDefinition() == typeof(IHandleCommands<>)
+                select interfaceType.GetGenericArguments()[0]).ToArray();
         }
     }
 }
