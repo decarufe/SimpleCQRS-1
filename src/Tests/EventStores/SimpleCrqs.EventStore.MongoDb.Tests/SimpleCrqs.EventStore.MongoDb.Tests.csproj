@@ -61,6 +61,10 @@
       <Project>{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}</Project>
       <Name>SimpleCqrs.Windsor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\SimpleCqrs.Ninject\SimpleCqrs.Ninject.csproj">
+      <Project>{61396a94-8f67-45d6-99f8-aff455dd2fef}</Project>
+      <Name>SimpleCqrs.Ninject</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\SimpleCqrs\SimpleCqrs.csproj">
       <Project>{E04C12B5-A6D3-4D64-9F38-896BEE68162E}</Project>
       <Name>SimpleCqrs</Name>

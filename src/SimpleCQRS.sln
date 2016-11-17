@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BE8A5F95-23AD-4B5D-BA21-004909E80F00}"
 EndProject
@@ -49,6 +49,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{ECDC80
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCqrs.Windsor", "ServiceLocators\SimpleCqrs.Windsor\SimpleCqrs.Windsor.csproj", "{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCqrs.Ninject", "SimpleCqrs.Ninject\SimpleCqrs.Ninject.csproj", "{61396A94-8F67-45D6-99F8-AFF455DD2FEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -104,6 +106,10 @@ Global
 		{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61396A94-8F67-45D6-99F8-AFF455DD2FEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61396A94-8F67-45D6-99F8-AFF455DD2FEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61396A94-8F67-45D6-99F8-AFF455DD2FEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61396A94-8F67-45D6-99F8-AFF455DD2FEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,6 +126,7 @@ Global
 		{BEEBFC8E-91EC-4E24-8223-395C2302C1B3} = {77CC485D-D260-45FC-A161-3DDF3A571C41}
 		{9C1063E4-1A0B-4402-8D78-A3F8E23D3D98} = {0C8AE82D-CACF-44CD-BE4F-222041AC4699}
 		{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B} = {0C8AE82D-CACF-44CD-BE4F-222041AC4699}
+		{61396A94-8F67-45D6-99F8-AFF455DD2FEF} = {0C8AE82D-CACF-44CD-BE4F-222041AC4699}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SimpleCQRS.vsmdi
