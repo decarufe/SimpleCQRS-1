@@ -39,12 +39,13 @@ namespace SimpleCqrs
             var serviceLocator = GetServiceLocator();
 
             serviceLocator.Register<IServiceLocator>(() => serviceLocator);
+            serviceLocator.Register<IDomainEventHandlerFactory, DomainEventHandlerFactory>();
             serviceLocator.Register(GetTypeCatalog(serviceLocator));
             serviceLocator.Register(GetCommandBus(serviceLocator));
             serviceLocator.Register(GetEventBus(serviceLocator));
             serviceLocator.Register(GetSnapshotStore(serviceLocator));
             serviceLocator.Register(GetEventStore(serviceLocator));
-            serviceLocator.Register<IDomainRepository, DomainRepository>();
+            serviceLocator.Register(GetDomainRepositoryResolver(serviceLocator));
             RegisterComponents(serviceLocator);
 
             SimpleCqrs.ServiceLocator.SetCurrent(serviceLocator);
@@ -97,7 +98,7 @@ namespace SimpleCqrs
         protected virtual IEventBus GetEventBus(IServiceLocator serviceLocator)
         {
             var typeCatalog = serviceLocator.Resolve<ITypeCatalog>();
-            var domainEventHandlerFactory = serviceLocator.Resolve<DomainEventHandlerFactory>();
+            var domainEventHandlerFactory = serviceLocator.Resolve<IDomainEventHandlerFactory>();
             var domainEventTypes = typeCatalog.GetGenericInterfaceImplementations(typeof(IHandleDomainEvents<>));
 
             return new LocalEventBus(domainEventTypes, domainEventHandlerFactory);
@@ -156,6 +157,13 @@ namespace SimpleCqrs
         {
             return Activator.CreateInstance<TServiceLocator>();
         }
+
+        protected virtual IDomainRepositoryResolver GetDomainRepositoryResolver(IServiceLocator locator)
+        {
+            locator.Register<IDomainRepository, DomainRepository>();
+            return new DefaultDomainRepositoryResolver();
+        }
+
 
         protected virtual IEnumerable<IRegisterComponents> GetComponentRegistrars(Type componentRegistarType, IServiceLocator serviceLocator)
         {

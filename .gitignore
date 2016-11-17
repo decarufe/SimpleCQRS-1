@@ -12,3 +12,5 @@ bin
 *.gpState
 TestResults
 [Bb]inaries
+/src/Packages
+/sample/ECommDemo/packages

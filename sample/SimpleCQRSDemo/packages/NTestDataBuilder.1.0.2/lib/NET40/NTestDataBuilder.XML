@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NTestDataBuilder</name>
+    </assembly>
+    <members>
+        <member name="T:NTestDataBuilder.ITestDataBuilder`1">
+            <summary>
+            Generates objects of type <see cref="!:T"/>.
+            </summary>
+            <typeparam name="T">The type of object this class generates</typeparam>
+        </member>
+        <member name="M:NTestDataBuilder.ITestDataBuilder`1.Build">
+            <summary>
+            Build the object.
+            </summary>
+            <returns>The built object</returns>
+        </member>
+        <member name="T:NTestDataBuilder.TestDataBuilder`2">
+            <summary>
+            Base class definining infrastructure for a class that generates objects of type <see cref="!:TObject"/>.
+            </summary>
+            <typeparam name="TObject">The type of object this class generates</typeparam>
+            <typeparam name="TBuilder">The type for this class, yes this is a recursive type definition</typeparam>
+        </member>
+        <member name="M:NTestDataBuilder.TestDataBuilder`2.Build">
+            <summary>
+            Build the object.
+            </summary>
+            <returns>The built object</returns>
+        </member>
+        <member name="M:NTestDataBuilder.TestDataBuilder`2.BuildObject">
+            <summary>
+            Build the actual object
+            </summary>
+            <returns>The built object</returns>
+        </member>
+        <member name="M:NTestDataBuilder.TestDataBuilder`2.AsProxy">
+            <summary>
+            Return an NSubstitute proxy object when .Build() is called rather than a real object.
+            </summary>
+            <returns>The builder so that other method calls can be chained</returns>
+        </member>
+        <member name="M:NTestDataBuilder.TestDataBuilder`2.AlterProxy(`0)">
+            <summary>
+            Alter the proxy object just after it has been built and before it's returned from .Build().
+            This allows you to add any .Returns() values that are more complex than the public properties that are proxied by default.
+            </summary>
+            <param name="proxy">The proxy object</param>
+        </member>
+        <member name="M:NTestDataBuilder.TestDataBuilder`2.Set``1(System.Linq.Expressions.Expression{System.Func{`0,``0}},``0)">
+            <summary>
+            Records the given value for the given property from <see cref="!:TObject"/>.
+            </summary>
+            <typeparam name="TValue">The type of the property</typeparam>
+            <param name="property">A lambda expression specifying the property to record a value for</param>
+            <param name="value">The value to record</param>
+        </member>
+        <member name="M:NTestDataBuilder.TestDataBuilder`2.Get``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})">
+            <summary>
+            Gets the recorded value for the given property from <see cref="!:TObject"/>.
+            </summary>
+            <typeparam name="TValue">The type of the property</typeparam>
+            <param name="property">A lambda expression specifying the property to retrieve the recorded value for</param>
+            <returns>The recorded value of the property</returns>
+        </member>
+        <member name="M:NTestDataBuilder.TestDataBuilder`2.GetOrDefault``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})">
+            <summary>
+            Gets the recorded value for the given property from <see cref="!:TObject"/> or if no
+            value has been recorded the default value for <see cref="!:TValue"/>.
+            </summary>
+            <typeparam name="TValue">The type of the property</typeparam>
+            <param name="property">A lambda expression specifying the property to retrieve the recorded value for</param>
+            <returns>The recorded value of the property or teh default value for <see cref="!:TValue"/> if no value recorded</returns>
+        </member>
+        <member name="M:NTestDataBuilder.TestDataBuilder`2.CreateListOfSize(System.Int32)">
+            <summary>
+            Creates an NBuilder list builder expression that allows you to create a list of builders.
+            When you are done call .Build().Select(b =&gt; b.Build()) to get the list of entities.
+            </summary>
+            <param name="size">The size of list</param>
+            <returns>The NBuilder list builder for a list of <see cref="!:TBuilder"/> of the specified size</returns>
+        </member>
+        <member name="M:NTestDataBuilder.TestDataBuilder`2.Has``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})">
+            <summary>
+            Returns whether or not there is currently a value recorded against the given property from <see cref="!:TObject"/>.
+            </summary>
+            <typeparam name="TValue">The type of the property</typeparam>
+            <param name="property">A lambda expression specifying the property to retrieve the recorded value for</param>
+            <returns>Whether or not there is a recorded value for the property</returns>
+        </member>
+        <member name="T:NTestDataBuilder.TestDataBuilderExtensions">
+            <summary>
+            Extension methods against the <see cref="T:NTestDataBuilder.TestDataBuilder`2"/> class.
+            </summary>
+        </member>
+        <member name="M:NTestDataBuilder.TestDataBuilderExtensions.BuildList``2(FizzWare.NBuilder.IOperable{``1})">
+            <summary>
+            Builds a list of entities given an NBuilder list expression of data builders.
+            </summary>
+            <typeparam name="TBuilder">The type of the builder being built using NBuilder</typeparam>
+            <typeparam name="TObject">The type of object being generated</typeparam>
+            <param name="builderList">The NBuilder list of builders</param>
+            <returns>The built list of objects</returns>
+        </member>
+        <member name="M:NTestDataBuilder.TestDataBuilderExtensions.BuildList``2(FizzWare.NBuilder.IListBuilder{``1})">
+            <summary>
+            Builds a list of entities given an NBuilder list expression of data builders.
+            </summary>
+            <typeparam name="TBuilder">The type of the builder being built using NBuilder</typeparam>
+            <typeparam name="TObject">The type of object being generated</typeparam>
+            <param name="builderList">The NBuilder list of builders</param>
+            <returns>The built list of objects</returns>
+        </member>
+        <member name="T:NTestDataBuilder.ProxyBuilder`1">
+            <summary>
+            Builds an NSubstitute proxy for the given type that has .Returns values set for the given dictionary of properties.
+            </summary>
+            <typeparam name="T">The type being proxied</typeparam>
+        </member>
+        <member name="M:NTestDataBuilder.ProxyBuilder`1.#ctor(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Create a proxy builder to proxy the given property values for the type <see cref="!:T"/>.
+            </summary>
+            <param name="properties"></param>
+        </member>
+        <member name="M:NTestDataBuilder.ProxyBuilder`1.Build">
+            <summary>
+            Build the proxy object and set up the .Returns values for the properties.
+            </summary>
+            <returns>The proxy object</returns>
+        </member>
+    </members>
+</doc>

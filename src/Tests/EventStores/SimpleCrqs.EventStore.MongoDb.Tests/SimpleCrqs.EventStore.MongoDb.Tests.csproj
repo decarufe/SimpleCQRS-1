@@ -37,6 +37,7 @@
       <HintPath>..\..\..\..\lib\AutoMoq.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="MongoDB.Bson, Version=1.4.2.4500, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -48,6 +49,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MongoDBEventStoreTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,9 +57,13 @@
       <Project>{201A4DF5-2217-4202-80E8-E784737366BC}</Project>
       <Name>SimpleCqrs.EventStore.MongoDb</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\ServiceLocators\SimpleCqrs.Unity\SimpleCqrs.Unity.csproj">
-      <Project>{00634E6C-A282-404A-B08B-338FD4CA41A9}</Project>
-      <Name>SimpleCqrs.Unity</Name>
+    <ProjectReference Include="..\..\..\ServiceLocators\SimpleCqrs.Windsor\SimpleCqrs.Windsor.csproj">
+      <Project>{FF7D0989-AEC2-41B7-B826-16A0CFCC5D3B}</Project>
+      <Name>SimpleCqrs.Windsor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\SimpleCqrs\SimpleCqrs.csproj">
+      <Project>{E04C12B5-A6D3-4D64-9F38-896BEE68162E}</Project>
+      <Name>SimpleCqrs</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

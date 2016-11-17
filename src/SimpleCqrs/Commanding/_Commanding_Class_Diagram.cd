@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SimpleCqrs.Commanding.AggregateRootCommandHandler&lt;TCommand, TAggregateRoot&gt;">
+    <Position X="7.25" Y="2.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAARAAAAAAAAAAAAAAAIAAAAIAAAAAAQ=</HashCode>
+      <FileName>Commanding\AggregateRootCommandHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SimpleCqrs.Commanding.CommandHandler&lt;TCommand&gt;">
+    <Position X="4" Y="2.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAEAAAAAQ=</HashCode>
+      <FileName>Commanding\CommandHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SimpleCqrs.Commanding.CommandHandlerNotFoundException" Collapsed="true">
+    <Position X="11" Y="4.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commanding\CommandHandlerNotFoundException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleCqrs.Commanding.CommandInvokerDictionaryBuilderHelpers" Collapsed="true">
+    <Position X="10.5" Y="3.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAAAAAAAQABAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commanding\CommandInvokerDictionaryBuilderHelpers.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleCqrs.Commanding.CommandWithAggregateRootId" Collapsed="true">
+    <Position X="7.25" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Commanding\CommandWithAggregateRootId.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SimpleCqrs.Commanding.DuplicateCommandHandlersException" Collapsed="true">
+    <Position X="11" Y="5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commanding\DuplicateCommandHandlersException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleCqrs.Commanding.ExecuteTimeoutException" Collapsed="true">
+    <Position X="11" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commanding\ExecuteTimeoutException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleCqrs.Commanding.LocalCommandBus" Collapsed="true">
+    <Position X="0.5" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAQAAEAAAAAAAAAAAAAAAACAAAAAAgA=</HashCode>
+      <FileName>Commanding\LocalCommandBus.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="SimpleCqrs.Commanding.ICommand" Collapsed="true">
+    <Position X="4.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commanding\ICommand.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SimpleCqrs.Commanding.ICommandBus">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Commanding\ICommandBus.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SimpleCqrs.Commanding.ICommandErrorHandler&lt;TCommand&gt;" Collapsed="true">
+    <Position X="10.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Commanding\ICommandErrorHandler.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SimpleCqrs.Commanding.ICommandHandlingContext&lt;TCommand&gt;" Collapsed="true">
+    <Position X="10.5" Y="1.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Commanding\ICommandHandlingContext.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SimpleCqrs.Commanding.ICommandWithAggregateRootId" Collapsed="true">
+    <Position X="4" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Commanding\ICommandWithAggregateRootId.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SimpleCqrs.Commanding.IHandleCommands&lt;TCommand&gt;">
+    <Position X="6" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Commanding\IHandleCommands.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -6,16 +6,15 @@ namespace SimpleCQRSDemo.ReadModel
 {
     public class AccountReportReadService
     {
-        private FakeAccountTable fakeAccountDb;
+        private SqlBankContext dbContext;
 
-        public AccountReportReadService(FakeAccountTable fakeAccountDb)
+        public AccountReportReadService(SqlBankContext dbContext)
         {
-            this.fakeAccountDb = fakeAccountDb;
+            this.dbContext = dbContext;
         }
-
         public IEnumerable<AccountReadModel> GetAccounts()
         {
-            return from a in fakeAccountDb
+            return from a in dbContext.Accounts
                    select new AccountReadModel { Id = a.Id, Name = a.Name };
         }
     }

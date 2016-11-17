@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "ACME Shop";
+}
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title:</h1>
+                <h2>@ViewBag.Message</h2>
+            </hgroup>
+            <p>
+                Get the source at <a href="https://github.com/andreabalducci/SimpleCQRS/tree/master/sample/ECommDemo" title="Github">
+                    Github</a>. 
+            </p>
+        </div>
+    </section>
+}
+<h3>
+    We suggest the following:</h3>
+<ol class="round">
+    <li class="one">
+        <h5>Getting Started</h5>
+            Create a new Ecommerce Item 
+    </li>
+    <li class="two">
+        <h5>Inventory</h5>
+        The Inventory bounded context should receive a command to create a new item.
+    </li>
+    <li class="three">
+        <h5>Tada!!</h5>
+        Go to inventory and check, you'll find a new Inventory item
+    </li>
+</ol>

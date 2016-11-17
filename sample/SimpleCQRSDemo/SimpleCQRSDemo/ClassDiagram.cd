@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Comment CommentText="SimpleCQRS provides base classes and interfaces:&#xD;&#xA;&#xD;&#xA;Commands: &#xD;&#xA;  - ICommand - simply identifies that a class is a command&#xD;&#xA;  - CommandHandler&lt;TCommand&gt; : IHandleCommands&lt;TCommand&gt;&#xD;&#xA;&#xD;&#xA;Domain:&#xD;&#xA;  - AggregateRoot&#xD;&#xA;&#xD;&#xA;Events:&#xD;&#xA;  - DomainEvent&#xD;&#xA;  - IHandleDomainEvents&lt;DomainEvent&gt;&#xD;&#xA;">
+    <Position X="0.5" Y="0.5" Height="2.906" Width="3.023" />
+  </Comment>
+  <Class Name="SimpleCQRSDemo.CommandHandlers.CreateAccountCommandHandler">
+    <Position X="3.25" Y="4.25" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>CommandHandlers\CreateAccountCommandHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleCQRSDemo.Commands.CreateAccountCommand" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Commands\CreateAccountCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SimpleCQRSDemo.Denormalizers.AccountReportDenormalizer" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="7" Width="4.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Denormalizers\AccountReportDenormalizer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SimpleCQRSDemo.Domain.Account">
+    <Position X="8.5" Y="4.25" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARAAAAAA=</HashCode>
+      <FileName>Domain\Account.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleCQRSDemo.Events.AccountCreatedEvent">
+    <Position X="12.75" Y="4.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Events\AccountCreatedEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleCQRSDemo.Events.AccountNameSetEvent">
+    <Position X="15" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Events\AccountNameSetEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleCQRSDemo.ReadModel.AccountReadModel">
+    <Position X="8.5" Y="7" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ReadModel\AccountReadModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleCQRSDemo.SampleRunTime">
+    <Position X="9.5" Y="9.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SampleRunTime.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimpleCqrs.Domain.AggregateRoot">
+    <Position X="8" Y="0.5" Width="4.75" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="SimpleCqrs.Commanding.CommandHandler&lt;TCommand&gt;">
+    <Position X="4" Y="1.5" Width="2.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SimpleCqrs.Eventing.DomainEvent">
+    <Position X="13.5" Y="1.25" Width="2.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="SimpleCqrs.SimpleCqrsRuntime&lt;TServiceLocator&gt;">
+    <Position X="0.5" Y="9.75" Width="7.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

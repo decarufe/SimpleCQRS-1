@@ -1,0 +1,13 @@
+﻿@model ECommDemo.Web.Areas.shop.Models.NewShopItemInputModel
+
+@{
+    ViewBag.Title = "New Item";
+}
+
+<h2>New Item</h2>
+
+@using (Html.BeginForm("Create", "Catalog", FormMethod.Post))
+{
+    @Html.EditorForModel(Model)
+    <input type="submit"/>
+}

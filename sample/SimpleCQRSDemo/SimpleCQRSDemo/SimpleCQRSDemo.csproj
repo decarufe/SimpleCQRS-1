@@ -34,6 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\..\binaries\servicelocators\unity\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -44,10 +50,14 @@
     <Reference Include="SimpleCqrs">
       <HintPath>..\..\..\binaries\SimpleCqrs.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleCqrs.EventStore.SqlServer">
+      <HintPath>..\..\..\binaries\eventstores\sqlserver\SimpleCqrs.EventStore.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="SimpleCqrs.Unity">
       <HintPath>..\..\..\binaries\servicelocators\unity\SimpleCqrs.Unity.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -57,20 +67,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandHandlers\CreateAccountCommandHandler.cs" />
+    <Compile Include="CommandHandlers\DepositCommandHandler.cs" />
+    <Compile Include="CommandHandlers\WithdrawalCommandHandler.cs" />
     <Compile Include="Commands\CreateAccountCommand.cs" />
+    <Compile Include="Commands\DepositCommand.cs" />
+    <Compile Include="Commands\WithdrawalCommand.cs" />
     <Compile Include="Denormalizers\AccountReportDenormalizer.cs" />
     <Compile Include="Domain\Account.cs" />
+    <Compile Include="Domain\NsfException.cs" />
+    <Compile Include="Domain\SimpleMoney.cs" />
     <Compile Include="Events\AccountCreatedEvent.cs" />
     <Compile Include="Events\AccountNameSetEvent.cs" />
-    <Compile Include="FakeDb\FakeAccountTableRow.cs" />
-    <Compile Include="FakeDb\FakeAccountTable.cs" />
+    <Compile Include="Database\Account.cs" />
+    <Compile Include="Database\SqlBankContext.cs" />
+    <Compile Include="Events\AccountNumberSetEvent.cs" />
+    <Compile Include="Events\DepositEvent.cs" />
+    <Compile Include="Events\WithdrawalEvent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadModel\AccountReadModel.cs" />
     <Compile Include="ReadModel\AccountReportReadService.cs" />
     <Compile Include="SampleRunTime.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="ClassDiagram.cd" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

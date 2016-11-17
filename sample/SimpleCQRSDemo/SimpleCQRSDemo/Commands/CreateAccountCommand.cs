@@ -1,4 +1,5 @@
 ﻿using SimpleCqrs.Commanding;
+using System;
 
 namespace SimpleCQRSDemo.Commands
 {
@@ -6,5 +7,6 @@ namespace SimpleCQRSDemo.Commands
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public int AccountNumber { get; set; }
     }
 }

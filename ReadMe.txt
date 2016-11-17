@@ -1,3 +1,11 @@
+# My Modifications
+
+I'm taking the @andreabalducci fork of @tyronegroves SimpleCQRS and making some minor updates to a) better understand CQRS and b) "fix" some issues with the samples.
+
+*More to come later....*
+
+----
+
 Getting Started Videos:
 	Part 1 http://youtu.be/tTbHR5KScEE
 	Part 2 http://youtu.be/6lonryMNDWg
